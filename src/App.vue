@@ -38,19 +38,19 @@
     </v-app-bar>
 
     <v-main>
-      <HelloWorld/>
+      <router-view/>
     </v-main>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld';
+//import StartPage from './views/StartPage.vue';
 
 export default {
   name: 'App',
 
   components: {
-    HelloWorld,
+    //StartPage
   },
 
   data: () => ({
