@@ -2,6 +2,8 @@ import Vue from 'vue';
 import App from './App.vue';
 import vuetify from './plugins/vuetify';
 import VueRouter from 'vue-router';
+import store from './store/store' 
+
 
 Vue.config.productionTip = false
 Vue.use(VueRouter);
@@ -17,6 +19,9 @@ const routes = [
     }, {
         path: '/CreateCommunityPage',
         component: () => import ('./views/CreateCommunityPage.vue')
+    }, {
+        path: '/NewAdmin',
+        component: () => import ('./views/NewAdmin.vue')
     }
 ];
 
@@ -24,6 +29,7 @@ const routes = [
 const router = new VueRouter({routes});
 
 new Vue({
+    store,
     vuetify,
     router,
     render: h => h(App)

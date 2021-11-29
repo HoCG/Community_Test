@@ -7,20 +7,23 @@
                 </v-toolbar>
                 <v-card-text>
                     <v-form>
-                        <v-text-field prepend-icon="mdi-account" name="login" label="Login" type="text" v-model="event.id">
+                        <v-text-field prepend-icon="mdi-account" name="login" label="Login" type="text" v-model="admin.id">
                         </v-text-field>
                         <v-text-field
                             prepend-icon="mdi-lock" 
                             id="password"
                             name="password"
                             label="Password"
-                            v-model="event.password"
+                            v-model="admin.password"
                             type="password"></v-text-field>
                     </v-form>
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="primary" to="/">Login</v-btn>
+                    <v-btn color="primary" @click="findAdmin">Login</v-btn>
+                    <v-btn color="primary">
+                        <router-link to="/NewAdmin" class="link">회원가입</router-link>
+                    </v-btn>
                 </v-card-actions>
             </v-card>
         </v-card-actions>
@@ -29,48 +32,41 @@
 
 <script>
     export default {
+        mounted() {
+            //for Test
+            this.$store.state.admin.currentUser.id = "ghtp9705"
+            this.$store.state.admin.currentUser.password = "2412ghtp"
+            this.$store.commit("ADD_NEW_USER", this.$store.state.admin.currentUser);
+        },
+        computed: {
+            admin() {
+                return this.$store.state.admin.currentUser;
+            }
+        },
         data() {
             return {email: null, password: null, validationErrors: []};
         },
         methods: {
-            resetError() {
-                this.validationErrors = [];
-            },
-            validate() {
-                // Clear the errors before we validate again
-                this.resetError();
-                // email validation
-                if (!this.email) {
-                    this
-                        .validationErrors
-                        .push("<strong>E-mail</strong> cannot be empty.");
+            findAdmin(){
+                this.$store.commit('FIND_USER', this.admin);
+                if(this.$store.state.admin.AllClear){
+                    alert("로그인 성공!")
                 }
-                if (/.+@.+/.test(this.email) != true) {
-                    this
-                        .validationErrors
-                        .push("<strong>E-mail</strong> must be valid.");
+                else if(this.$store.state.admin.ID_or_PasswordError){
+                    alert("비밀번호가 틀렸습니다. 다시 입력해주세요.");
                 }
-                // password validation
-                if (!this.password) {
-                    this
-                        .validationErrors
-                        .push("<strong>Password</strong> cannot be empty");
+                else{
+                    alert("아이디 또는 비밀번호가 틀렸습니다. 다시 입력해주세요.")
                 }
-                if (/.{6,}/.test(this.password) != true) {
-                    this
-                        .validationErrors
-                        .push("<strong>Password</strong> must be at least 6 characters long");
-                }
-                // when valid then sign in
-                if (this.validationErrors.length <= 0) {
-                    this.signIn();
-                }
-            },
-            signIn() {
-                // @TODO signIn logic will come here
-                console.log("sign in", this.email, this.password);
             }
         }
     };
 </script>
-<style></style>
+<style>
+    .link {
+        width: 100% !important;
+        height: 100% !important;
+        color: white !important;
+        text-decoration: none !important;
+    }
+</style>
