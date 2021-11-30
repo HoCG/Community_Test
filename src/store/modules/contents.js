@@ -54,7 +54,6 @@ const mutations = {
             })
     },
     
-    
     //이벤트를 업데이트하는 다이얼로그를 출력하게 도와주는 함수.
     UPDATE_CONTENT_BY_DETAIL(state, getContent) {
         state.content = updateContent(getContent);
@@ -128,8 +127,8 @@ function initContent() {
         startDate: '',
         startTime: '',
         endDate: '',
-        endTime: '',
-        content: ''
+        endTime: '', //작성 어...? end가 필요하냐?
+        content: ''  //내용
     }
 }
 

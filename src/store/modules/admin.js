@@ -10,6 +10,9 @@ const state = {
 const mutations = {
     //이벤트를 수정하는 동작이다. 클릭된 일정에 id가 일치하지 않는 User를 AllUsersInfo내에 찾아내고
     //찾아낸 이벤트값들로 events 배열을 재구성하고 최종적으로 수정된 event를 집어넣어주면 끝이다.
+    FORMAT_USER_INFO(state){
+        state.currentUser = initUser();
+    },
     UPDATE_USER_INFO(state, getUser) {
         state.AllUsersInfo = state
             .AllUsersInfo
@@ -47,6 +50,7 @@ const mutations = {
             .AllUsersInfo
             .push(getUser);
         state.currentUser = initUser();
+        console.log(state.AllUsersInfo);
     },
 
     /*

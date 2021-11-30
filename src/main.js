@@ -12,16 +12,16 @@ const routes = [
     // 이곳에 router 를 등록할 것 입니다.
     {
         path: '/',
-        component: () => import ('./views/LoginPage.vue')
-    }, {
-        path: '/StartPage',
         component: () => import ('./views/StartPage.vue')
     }, {
-        path: '/CreateCommunityPage',
-        component: () => import ('./views/CreateCommunityPage.vue')
+        path: '/LoginPage',
+        component: () => import ('./views/LoginPage.vue')
     }, {
-        path: '/NewAdmin',
-        component: () => import ('./views/NewAdmin.vue')
+        path: '/CreateContentPage',
+        component: () => import ('./views/CreateContentPage.vue')
+    }, {
+        path: '/CreateAdminPage',
+        component: () => import ('./views/CreateAdminPage.vue')
     }
 ];
 

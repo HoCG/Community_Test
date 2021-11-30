@@ -1,3 +1,4 @@
+<!--로그인 페이지-->
 <template>
     <v-layout max-width="100%" justify-center="justify-center">
         <v-card-actions class="justify-center" max-width="100%">
@@ -20,10 +21,11 @@
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="primary" @click="findAdmin">Login</v-btn>
+                    <v-btn color="primary" @click="findAdmin">로그인</v-btn>
                     <v-btn color="primary">
                         <router-link to="/NewAdmin" class="link">회원가입</router-link>
                     </v-btn>
+                    <v-btn color="primary" @click="backStartPage">뒤로가기</v-btn>
                 </v-card-actions>
             </v-card>
         </v-card-actions>
@@ -58,6 +60,15 @@
                 else{
                     alert("아이디 또는 비밀번호가 틀렸습니다. 다시 입력해주세요.")
                 }
+            },
+            backStartPage(){
+                this
+                .$router
+                .push({
+                    path: "/",
+                    query: {
+                    }
+                })
             }
         }
     };
