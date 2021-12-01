@@ -1,16 +1,24 @@
 const state = {
-    content: initContent(), //새롭게 등록될 이벤트, 혹은 현재 이벤트.
-    AllContents: [] //저장된 일정들을 담는 배열.
+    currentContent: initContent(), //새롭게 등록될 이벤트, 혹은 현재 이벤트.
+    AllContents: [], //저장된 일정들을 담는 배열.
+    randomContents: []
 };
 
 //사용되는 동작들
 const mutations = {
     //다이얼로그를 열때(이벤트 생성 다이얼로그)
     OPEN_CONTENT(state, payload) {
-        state.content.startDate = payload.date;
-        state.content.startTime = payload.time;
+        state.currentContent.startDate = payload.date;
+        state.currentContent.startTime = payload.time;
     },
-
+    MAKE_RANDOM_CONTENTS(state){
+        //중복제거 코드가 필요할듯.
+        state.randomContents = [];
+        for(let i = 0; i < 9; i++){
+            state.randomContents.push(state.AllContents[randomNum(0, state.AllContents.length-1)])
+            //console.log(state.AllContents[randomNum(0, state.AllContents.length - 1)]);
+        }
+    },
     //이벤트를 수정하는 동작이다. 클릭된 일정에 id가 일치하지 않는 event를 events내에서 찾아내고
     //찾아낸 이벤트값들로 events 배열을 재구성하고 최종적으로 수정된 event를 집어넣어주면 끝이다.
     UPDATE_CONTENT(state, getContent) {
@@ -21,16 +29,17 @@ const mutations = {
         state
             .AllContents
             .push(getContent);
-        state.content = initContent();
+        state.currentContent = initContent();
     },
 
     //이벤트를 추가하는 과정.
     ADD_CONTENT(state, getContent) {
-        getContent = makeContent(state, getContent);
+        getContent = makeContent(getContent);
         state
             .AllContents
             .push(getContent);
-        state.content = initContent();
+        //console.log(getContent);
+        state.currentContent = initContent();
     },
 
     //쓰는일이 없는 함수이지만, 혹시몰라서 냅둠.
@@ -49,19 +58,19 @@ const mutations = {
             .AllContents
             .forEach(e => {
                 if (e.id === content.id) {
-                    state.content = e;
+                    state.currentContent = e;
                 }
             })
     },
     
     //이벤트를 업데이트하는 다이얼로그를 출력하게 도와주는 함수.
     UPDATE_CONTENT_BY_DETAIL(state, getContent) {
-        state.content = updateContent(getContent);
+        state.currentContent = updateContent(getContent);
     },
 
     //디테일 이벤트를 닫는 함수.
     CLOSE_CONTENT_ABOUT_DETAIL(state) {
-        state.content = initContent();
+        state.currentContent = initContent();
     },
 
     //이벤트를 삭제하는 함수. 디테일 다이얼로그내에서 진행되는 동작이기때문에 state.eventDetailDialog = false;
@@ -72,7 +81,7 @@ const mutations = {
             .filter(e => e.id !== getEvent.id);
         console.log(state.AllContents);
         state.eventDetailDialog = false;
-        state.content = initContent();
+        state.currentContent = initContent();
     }
 };
 
@@ -89,16 +98,18 @@ const getTime = (time) => {
 // 양을 줄일 수 있다면 줄이는게 맞는것이므로 이렇게 합쳐서 저장한다.
 const makeContent = (content) => {
     return {
-        name: content.title,
+        id: content.id,
+        userID: content.userID,
+        title: content.title,
         content: content.content,
         start: content.startDate + getTime(content.startTime),
-        end: content.endDate + getTime(content.endTime)
         //색은 랜덤으로 지정. 여기서 만약 겹치는 날짜를 가지고 있는 이벤트가 있다면 그 색이 겹치지 않도록 설정하는것도 필요할듯.
     }
 };
 
 //이벤트의 양식을 initEvent를 통해 만들어지는 이벤트 양식으로 맞춰준다.
 const updateContent = (content) => {
+    //데이터로 이미지를 추가해보는건? https://stackoverflow.com/questions/53412106/linking-to-images-referenced-in-vuex-store-in-vue-js
     return {
         id: content.id,
         startDate: content
@@ -107,12 +118,6 @@ const updateContent = (content) => {
         startTime: content
             .start
             .substr(11, 5), //String 위치를 가져와도 무방하다.
-        endDate: content
-            .end
-            .substr(0, 10),
-        endTime: content
-            .end
-            .substr(11, 5),
         content: content.content,
         title: content.name
     }
@@ -126,10 +131,13 @@ function initContent() {
         title: '',
         startDate: '',
         startTime: '',
-        endDate: '',
-        endTime: '', //작성 어...? end가 필요하냐?
         content: ''  //내용
     }
+}
+
+function randomNum(min, max){
+    let randNum = Math.floor(Math.random()*(max-min+1)) + min;
+    return randNum;
 }
 
 export default {mutations, state, actions};

@@ -53,6 +53,8 @@
                 this.$store.commit('FIND_USER', this.admin);
                 if(this.$store.state.admin.AllClear){
                     alert("로그인 성공!")
+                    this.$router.push({path: '/StartPage', params: {}})
+                    .catch(() => {})
                 }
                 else if(this.$store.state.admin.ID_or_PasswordError){
                     alert("비밀번호가 틀렸습니다. 다시 입력해주세요.");

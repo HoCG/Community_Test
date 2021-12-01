@@ -9,6 +9,7 @@ Vue.config.productionTip = false
 Vue.use(VueRouter);
 
 const routes = [
+    
     // 이곳에 router 를 등록할 것 입니다.
     {
         path: '/',

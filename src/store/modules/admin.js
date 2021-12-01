@@ -1,9 +1,11 @@
 const state = {
     currentUser: initUser(), //새롭게 등록될 유저, 혹은 현재 유저정보.
+    //데이터 전용 유저개체랑 실제 로그인된 유저개체를 분리시킬 필요가 있을듯.
     AllUsersInfo: [], //저장된 유저들을 담는 배열.
     passwordError: false,
     ID_or_PasswordError: false,
     AllClear: false,
+    LoginMode: false
 };
 
 //사용되는 동작들
@@ -31,6 +33,7 @@ const mutations = {
             state.AllClear = true;
             state.ID_or_PasswordError = false;
             state.passwordError = false;
+            state.LoginMode = true;
         }
         else if(state.AllUsersInfo.map(u => u.id).includes(getUser.id) && !state.AllUsersInfo.map(u => u.password).includes(getUser.password)){
             state.AllClear = false;
@@ -50,7 +53,7 @@ const mutations = {
             .AllUsersInfo
             .push(getUser);
         state.currentUser = initUser();
-        console.log(state.AllUsersInfo);
+        //console.log(state.AllUsersInfo);
     },
 
     /*
@@ -93,7 +96,7 @@ const mutations = {
         state.AllUsersInfo = state
             .AllUsersInfo
             .filter(e => e.id !== getUser.id);
-        console.log(state.AllUsersInfo);
+        //console.log(state.AllUsersInfo);
         state.eventDetailDialog = false;
         state.currentUser = initUser();
     }
