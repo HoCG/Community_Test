@@ -3,6 +3,7 @@
     <v-layout max-width="100%" justify-center="justify-center">
         <v-card-actions class="justify-center" max-width="100%">
             <v-card width="100%">
+                <!--
                 <v-layout max-width="100%" class="LoginCheckLayout">
                     <v-btn v-if="checkLoginMode()" target="_blank" text="text">
                         <span class="mr-2">Welcome
@@ -14,10 +15,11 @@
                         @click="goLoginPage()"
                         target="_blank"
                         text="text">
-                            <span class="mr-2">Login</span>
-                            <v-icon>mdi-lock</v-icon>
+                        <span class="mr-2">Login</span>
+                        <v-icon>mdi-lock</v-icon>
                     </v-btn>
                 </v-layout>
+                -->
                 <v-layout max-width="100%" justify-center="justify-center">
                     <h1>
                         Welcome HoCGtagram
@@ -31,7 +33,8 @@
                     <Content
                         v-for="Content in randomContents"
                         :key="Content.id"
-                        v-bind:childVaule="Content.id"/>
+                        v-bind:childVaule="Content.id"
+                        @click.native="goThisContentPage(Content.id)"/>
                     <!--이 컨텐트를 클릭했을때 Content만 따로 보이는 페이지로 넘어가도록 설정해야함. 대신 그때에는 Content 고유의 id를 하나만
                     넘기던가 해서 페이지를 열게끔.-->
                     <!--parentVaule값으로 content고유 id값을 전달해보는건 어떨까...?-->
@@ -47,11 +50,13 @@
     import saveContent_Info from "../assets/saveContent_Info_By_JSON.json"
     import Content from "../components/Content.vue";
     export default {
+        /*
         mounted() {
             this
                 .$store
                 .commit("MAKE_RANDOM_CONTENTS");
         },
+        */
         computed: {
             randomContents() {
                 //let currentContent = this.$store.state.content.currentContent
@@ -59,7 +64,7 @@
                 this
                     .$store
                     .commit("MAKE_RANDOM_CONTENTS");
-                console.log(this.$store.state.contents.randomContents);
+                //console.log(this.$store.state.contents.randomContents);
                 return this.$store.state.contents.randomContents
             }
         },
@@ -70,6 +75,7 @@
             return {saveContents: saveContent_Info.contents, parentVaule: 20};
         },
         methods: {
+            /*
             checkLoginMode() {
                 if (this.$store.state.admin.LoginMode) {
                     return true;
@@ -82,19 +88,31 @@
                     .$router
                     .push({path: '/LoginPage', params: {}})
                     .catch(() => {})
-                },
+            },
+            */
             pushData() {
                 for (let content of this.saveContents) {
                     this.$store.state.contents.currentContent.id = parseInt(content.id);
                     this.$store.state.contents.currentContent.userID = String(content.userID);
                     this.$store.state.contents.currentContent.title = String(content.title);
                     this.$store.state.contents.currentContent.content = String(content.content);
-                    console.log(this.$store.state.contents.currentContent);
+                    //console.log(this.$store.state.contents.currentContent);
                     this
                         .$store
                         .commit("ADD_CONTENT", this.$store.state.contents.currentContent);
                 }
-            }
+            },
+            goThisContentPage(ContentID) {
+                this
+                    .$router
+                    .push({
+                        path: '/ContentDetailPage',
+                        query: {
+                            ID: ContentID
+                        }
+                    })
+                    .catch(() => {})
+                }
         }
     }
 </script>

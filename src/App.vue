@@ -19,6 +19,9 @@
                     width="100"/>
             </div>
             <v-spacer></v-spacer>
+            <div class="LoginCheckLayout">
+                <LoginLayout/>
+            </div>
             <!--
             생각해보니 여기에 라우터를 두면 어카냐....
             <v-btn v-if="checkLoginMode()" target="_blank" text="text">
@@ -43,7 +46,7 @@
 <script>
     //import StartPage from './views/StartPage.vue';
     //import LoginPage from "./views/LoginPage.vue"
-    
+    import LoginLayout from "./components/LoginLayout.vue"
 
     export default {
         name: 'App',
@@ -54,6 +57,7 @@
         },
         components: {
             //StartPage
+            LoginLayout
         },
         methods: {
         },
@@ -65,6 +69,10 @@
     };
 </script>
 <style>
+    .LoginCheckLayout {
+        float: right;
+        width: 200px;
+    }
     .link {
         width: 100% !important;
         height: 100% !important;

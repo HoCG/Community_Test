@@ -11,11 +11,23 @@ const mutations = {
         state.currentContent.startDate = payload.date;
         state.currentContent.startTime = payload.time;
     },
+    FIND_CONTENT(state, ContentID){
+        console.log(state.AllContents.find(c => c.id === parseInt(ContentID)));
+        state.currentContent = state.AllContents.find(c => c.id === parseInt(ContentID))
+    },
     MAKE_RANDOM_CONTENTS(state){
         //중복제거 코드가 필요할듯.
         state.randomContents = [];
-        for(let i = 0; i < 9; i++){
-            state.randomContents.push(state.AllContents[randomNum(0, state.AllContents.length-1)])
+        let randomCheckArr = [];
+        for(let i = 0; i < state.AllContents.length; i++){
+            let n = randomNum(0, state.AllContents.length-1);
+            if(randomCheckArr.indexOf(n) === -1){
+                randomCheckArr.push(n);
+                state.randomContents.push(state.AllContents[n]);
+            }
+            else{
+                i--;
+            }
             //console.log(state.AllContents[randomNum(0, state.AllContents.length - 1)]);
         }
     },
@@ -79,7 +91,7 @@ const mutations = {
         state.AllContents = state
             .AllContents
             .filter(e => e.id !== getEvent.id);
-        console.log(state.AllContents);
+        //console.log(state.AllContents);
         state.eventDetailDialog = false;
         state.currentContent = initContent();
     }

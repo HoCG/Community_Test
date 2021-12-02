@@ -1,11 +1,18 @@
 const state = {
-    currentUser: initUser(), //새롭게 등록될 유저, 혹은 현재 유저정보.
-    //데이터 전용 유저개체랑 실제 로그인된 유저개체를 분리시킬 필요가 있을듯.
+    currentUser: initUser(), //현재 유저정보. 로그인되어 사용될 데이터
+    LoginMode: false, //로그인 상태 유무를 확인하는 데이터
+
     AllUsersInfo: [], //저장된 유저들을 담는 배열.
+
+
+    TheUser_usedByData: initUser(), //데이터 전용 유저개체랑 실제 로그인된 유저개체를 분리시킬 필요가 있을듯. 그래서 만든 데이터.
+    //이로인해 변수명을 전체적으로 수정할 필요가 있어졌다...!
+
+
+    //제대로 로그인을 했는지 안했는지를 확인하는 데이터.
     passwordError: false,
     ID_or_PasswordError: false,
-    AllClear: false,
-    LoginMode: false
+    AllClear: false
 };
 
 //사용되는 동작들
@@ -13,7 +20,11 @@ const mutations = {
     //이벤트를 수정하는 동작이다. 클릭된 일정에 id가 일치하지 않는 User를 AllUsersInfo내에 찾아내고
     //찾아낸 이벤트값들로 events 배열을 재구성하고 최종적으로 수정된 event를 집어넣어주면 끝이다.
     FORMAT_USER_INFO(state){
+        state.TheUser_usedByData = initUser();
+    },
+    LOGOFF_USER(state){
         state.currentUser = initUser();
+        state.LoginMode = false;
     },
     UPDATE_USER_INFO(state, getUser) {
         state.AllUsersInfo = state
@@ -25,7 +36,7 @@ const mutations = {
             .push(getUser);
         //state.eventAddDialogUpdateMode = false
         //state.eventAddDialog = false;
-        state.currentUser = initUser();
+        state.TheUser_usedByData = initUser();
     },
     FIND_USER(state, getUser){
         getUser = makeUser(getUser);
@@ -33,6 +44,8 @@ const mutations = {
             state.AllClear = true;
             state.ID_or_PasswordError = false;
             state.passwordError = false;
+            //로그인에 성공한다면 현재 유저 정보를 가지고온 정보값으로 설정한다.
+            //state.currentUser = 
             state.LoginMode = true;
         }
         else if(state.AllUsersInfo.map(u => u.id).includes(getUser.id) && !state.AllUsersInfo.map(u => u.password).includes(getUser.password)){
@@ -52,7 +65,7 @@ const mutations = {
         state
             .AllUsersInfo
             .push(getUser);
-        state.currentUser = initUser();
+        state.TheUser_usedByData = initUser();
         //console.log(state.AllUsersInfo);
     },
 
@@ -83,7 +96,7 @@ const mutations = {
     //이벤트를 업데이트하는 다이얼로그를 출력하게 도와주는 함수.
     /*
     UPDATE_USER_INFO(state, getUser) {
-        state.currentUser = makeUser(state, getUser);
+        state.TheUser_usedByData = makeUser(state, getUser);
         state.eventDetailDialog = false;
         state.eventAddDialogUpdateMode = true; //이벤트를 추가하는 다이얼로그를 출력하긴 한다만,
         state.eventAddDialog = true; //이게 업데이트하는 모드라는걸 알려주기 위해서 이렇게한다.
@@ -98,7 +111,7 @@ const mutations = {
             .filter(e => e.id !== getUser.id);
         //console.log(state.AllUsersInfo);
         state.eventDetailDialog = false;
-        state.currentUser = initUser();
+        state.TheUser_usedByData = initUser();
     }
 };
 
@@ -107,12 +120,12 @@ const actions = {};
 
 // 백엔드의 관점에서 볼때 time과 date를 나눠서 저장하게 되면 변수도 많아질 뿐더러 굉장히 비효율적일 수 밖에 없다. 저장하는 변수의
 // 양을 줄일 수 있다면 줄이는게 맞는것이므로 이렇게 합쳐서 저장한다.
-const makeUser = (currentUser) => {
+const makeUser = (TheUser_usedByData) => {
     return {
-        id: currentUser.id,
-        password: currentUser.password,
-        userName: currentUser.userName,
-        userBirthDay: currentUser.userBirthDay
+        id: TheUser_usedByData.id,
+        password: TheUser_usedByData.password,
+        userName: TheUser_usedByData.userName,
+        userBirthDay: TheUser_usedByData.userBirthDay
         /*
         ,
         start: event.startDate + getTime(event.startTime),

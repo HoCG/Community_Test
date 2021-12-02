@@ -23,6 +23,9 @@ const routes = [
     }, {
         path: '/CreateAdminPage',
         component: () => import ('./views/CreateAdminPage.vue')
+    }, {
+        path: '/ContentDetailPage',
+        component: () => import ('./views/ContentDetailPage.vue')
     }
 ];
 
