@@ -53,7 +53,7 @@
                 this.$store.commit('FIND_USER', this.admin);
                 if(this.$store.state.admin.AllClear){
                     alert("로그인 성공!")
-                    this.$router.push({path: '/StartPage', params: {}})
+                    this.$router.push({path: '/', params: {}})
                     .catch(() => {})
                 }
                 else if(this.$store.state.admin.ID_or_PasswordError){
@@ -75,7 +75,7 @@
         }
     };
 </script>
-<style>
+<style>    
     .link {
         width: 100% !important;
         height: 100% !important;
