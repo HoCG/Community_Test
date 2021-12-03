@@ -1,19 +1,29 @@
 const state = {
     currentContent: initContent(), //새롭게 등록될 이벤트, 혹은 현재 이벤트.
     AllContents: [], //저장된 일정들을 담는 배열.
-    randomContents: []
+    randomContents: [],
+
+    //데이터 처리를 위한 Content값
+    DataProcessContent: initContent()
+
+
+    //코멘트를 다는 기능도 필요하지 않을까...?
+    //좋아요도 필요할듯...?
 };
 
 //사용되는 동작들
 const mutations = {
     //다이얼로그를 열때(이벤트 생성 다이얼로그)
     OPEN_CONTENT(state, payload) {
-        state.currentContent.startDate = payload.date;
-        state.currentContent.startTime = payload.time;
+        state.DataProcessContent.startDate = payload.date;
+        state.DataProcessContent.startTime = payload.time;
     },
     FIND_CONTENT(state, ContentID){
         console.log(state.AllContents.find(c => c.id === parseInt(ContentID)));
         state.currentContent = state.AllContents.find(c => c.id === parseInt(ContentID))
+    },
+    FORMAT_ALLCONTENTS(state){
+        state.AllContents = [];
     },
     MAKE_RANDOM_CONTENTS(state){
         //중복제거 코드가 필요할듯.
@@ -41,7 +51,7 @@ const mutations = {
         state
             .AllContents
             .push(getContent);
-        state.currentContent = initContent();
+        state.DataProcessContent = initContent();
     },
 
     //이벤트를 추가하는 과정.
@@ -51,7 +61,7 @@ const mutations = {
             .AllContents
             .push(getContent);
         //console.log(getContent);
-        state.currentContent = initContent();
+        state.DataProcessContent = initContent();
     },
 
     //쓰는일이 없는 함수이지만, 혹시몰라서 냅둠.
@@ -70,19 +80,19 @@ const mutations = {
             .AllContents
             .forEach(e => {
                 if (e.id === content.id) {
-                    state.currentContent = e;
+                    state.DataProcessContent = e;
                 }
             })
     },
     
     //이벤트를 업데이트하는 다이얼로그를 출력하게 도와주는 함수.
     UPDATE_CONTENT_BY_DETAIL(state, getContent) {
-        state.currentContent = updateContent(getContent);
+        state.DataProcessContent = updateContent(getContent);
     },
 
     //디테일 이벤트를 닫는 함수.
     CLOSE_CONTENT_ABOUT_DETAIL(state) {
-        state.currentContent = initContent();
+        state.DataProcessContent = initContent();
     },
 
     //이벤트를 삭제하는 함수. 디테일 다이얼로그내에서 진행되는 동작이기때문에 state.eventDetailDialog = false;
@@ -93,7 +103,7 @@ const mutations = {
             .filter(e => e.id !== getEvent.id);
         //console.log(state.AllContents);
         state.eventDetailDialog = false;
-        state.currentContent = initContent();
+        state.DataProcessContent = initContent();
     }
 };
 

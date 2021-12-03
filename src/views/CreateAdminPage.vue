@@ -1,4 +1,5 @@
 <!--회원가입 페이지.-->
+<!--가입일을 다는 기능까지 추가되야 할듯하다.-->
 <template>
     <v-layout max-width="100%" justify-center="justify-center">
         <v-card-actions class="justify-center" max-width="100%">
@@ -90,6 +91,7 @@
             NewAdminCheck() {
                 if (this.passwordOverlapCheck(this.admin.password, this.passwordCheck)) {
                     if (this.passwordUniquenessCheck(this.admin.id, this.admin.password)) {
+                        //가입일까지 추가시키자.
                         this
                             .$store
                             .commit("ADD_NEW_USER", this.admin);

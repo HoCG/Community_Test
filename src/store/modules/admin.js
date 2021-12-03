@@ -1,4 +1,5 @@
 const state = {
+    //이 아래 두 데이터는 특정 경우가 아니면 건들지 못하도록 제한을 걸어야함.
     currentUser: initUser(), //현재 유저정보. 로그인되어 사용될 데이터
     LoginMode: false, //로그인 상태 유무를 확인하는 데이터
 

@@ -1,40 +1,19 @@
 <template>
     <v-app>
-        <v-app-bar app="app" color="primary" dark="dark">
+        <v-app-bar app="app" color="mainColor" dark="dark">
             <div class="d-flex align-center">
                 <v-img
-                    alt="Vuetify Logo"
+                    @click="goMainPage()"
                     class="shrink mr-2"
                     contain="contain"
-                    src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
+                    src="./assets/logo.png"
                     transition="scale-transition"
-                    width="40"/>
-
-                <v-img
-                    alt="Vuetify Name"
-                    class="shrink mt-1 hidden-sm-and-down"
-                    contain="contain"
-                    min-width="100"
-                    src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-                    width="100"/>
+                    width="300"/>
             </div>
             <v-spacer></v-spacer>
             <div class="LoginCheckLayout">
                 <LoginLayout/>
             </div>
-            <!--
-            생각해보니 여기에 라우터를 두면 어카냐....
-            <v-btn v-if="checkLoginMode()" target="_blank" text="text">
-                <span class="mr-2">Welcome {{this.adminID}}</span>
-                <v-icon>mdi-account</v-icon>
-            </v-btn>
-            <v-btn v-else-if="!checkLoginMode()" target="_blank" text="text">
-              <router-link to="/LoginPage" class="link">              
-                <span class="mr-2">Login</span>
-                <v-icon>mdi-lock</v-icon>
-              </router-link>
-            </v-btn>
-            -->
         </v-app-bar>
         <v-main>
             <router-view/>
@@ -44,8 +23,6 @@
 </template>
 
 <script>
-    //import StartPage from './views/StartPage.vue';
-    //import LoginPage from "./views/LoginPage.vue"
     import LoginLayout from "./components/LoginLayout.vue"
 
     export default {
@@ -60,6 +37,12 @@
             LoginLayout
         },
         methods: {
+            goMainPage(){
+                this
+                    .$router
+                    .push({path: '/', params: {}})
+                    .catch(() => {})
+            }
         },
         data() {
             return {
@@ -70,8 +53,7 @@
 </script>
 <style>
     .LoginCheckLayout {
-        float: right;
-        width: 200px;
+        float: right;  
     }
     .link {
         width: 100% !important;

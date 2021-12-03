@@ -3,34 +3,49 @@
     <v-layout max-width="100%" justify-center="justify-center">
         <v-card-actions class="justify-center" max-width="100%">
             <v-card width="100%">
-                <!--
-                <v-layout max-width="100%" class="LoginCheckLayout">
-                    <v-btn v-if="checkLoginMode()" target="_blank" text="text">
-                        <span class="mr-2">Welcome
-                            {{this.adminID}}</span>
-                        <v-icon>mdi-account</v-icon>
-                    </v-btn>
-                    <v-btn
-                        v-else-if="!checkLoginMode()"
-                        @click="goLoginPage()"
-                        target="_blank"
-                        text="text">
-                        <span class="mr-2">Login</span>
-                        <v-icon>mdi-lock</v-icon>
+                <v-layout class="createContentBtn">
+                    <v-spacer></v-spacer><!--정렬방법 찾아냄!!! https://electronic-moongchi.tistory.com/21-->
+                    <v-btn @click="goCreateContentPage()">
+                        <v-icon color="black"> mdi-pencil</v-icon>
                     </v-btn>
                 </v-layout>
-                -->
                 <v-layout max-width="100%" justify-center="justify-center">
                     <h1>
                         Welcome HoCGtagram
                     </h1>
                 </v-layout>
+
+                <v-carousel
+                    class="carouselStyle"
+                    cycle="cycle"
+                    hide-delimiter-background="hide-delimiter-background"
+                    show-arrows-on-hover="show-arrows-on-hover">
+                    <template v-slot:prev="{ on, attrs }">
+                        <v-btn color="success" v-bind="attrs" v-on="on">Previous slide</v-btn>
+                    </template>
+                    <template v-slot:next="{ on, attrs }">
+                        <v-btn color="info" v-bind="attrs" v-on="on">Next slide</v-btn>
+                    </template>
+                    <!--페이지에 대한 안내를 담은 부분. carousel-item을 활용해서 보여지도록 하였다.-->
+                    <v-carousel-item v-for="(color, i) in colors" :key="i">
+                        <v-sheet :color="color" width="1000px" height="100%">
+                            <v-row class="fill-height" align="center" justify="center">
+                                <div class="text-h2">
+                                    {{ texts[i] }}
+                                </div>
+                            </v-row>
+                        </v-sheet>
+                    </v-carousel-item>
+                </v-carousel>
                 <v-layout max-width="100%" justify-center="justify-center">
+                    <v-icon color="yellow">mdi-star</v-icon>
                     <h3>다른 사람이 작성한 글들</h3>
+                    <v-icon color="yellow">mdi-star</v-icon>
                 </v-layout>
                 <v-card-actions class="justify-center" max-width="100%">
                     <!--이 for문은 지금 동작하지 않는다. 데이터를 필요로함.-->
                     <Content
+                        class="ContentMargin"
                         v-for="Content in randomContents"
                         :key="Content.id"
                         v-bind:childVaule="Content.id"
@@ -50,21 +65,17 @@
     import saveContent_Info from "../assets/saveContent_Info_By_JSON.json"
     import Content from "../components/Content.vue";
     export default {
-        /*
         mounted() {
+            this
+                .$store
+                .commit("FORMAT_ALLCONTENTS");
+            this.pushData();
             this
                 .$store
                 .commit("MAKE_RANDOM_CONTENTS");
         },
-        */
         computed: {
             randomContents() {
-                //let currentContent = this.$store.state.content.currentContent
-                this.pushData();
-                this
-                    .$store
-                    .commit("MAKE_RANDOM_CONTENTS");
-                //console.log(this.$store.state.contents.randomContents);
                 return this.$store.state.contents.randomContents
             }
         },
@@ -72,51 +83,68 @@
             Content
         },
         data() {
-            return {saveContents: saveContent_Info.contents, parentVaule: 20};
+            return {
+                saveContents: saveContent_Info.contents,
+                parentVaule: 20,
+                colors: [
+                    'primary', 'secondary', 'yellow darken-2', 'red', 'orange'
+                ],
+                //텍스트 정보를 배열로 가진다.
+                texts: ['이제 너를 마음껏 표현해봐', '다른 사람들과 소통해보자!', 'ㅇ', 'ㅇ', 'ㅇ']
+            };
         },
         methods: {
-            /*
-            checkLoginMode() {
-                if (this.$store.state.admin.LoginMode) {
-                    return true;
-                } else {
-                    return false;
+            goCreateContentPage(){
+                //로그인이 됐나 안됐나 확인할 필요가 전무함.
+                if(this.$store.state.admin.LoginMode){
+                    this
+                    .$router
+                    .push({path: '/CreateContentPage'})
+                    .catch(() => {})
+                }
+                else{
+                    this
+                    .$router
+                    .push({path: '/LoginPage'})
+                    .catch(() => {})
                 }
             },
-            goLoginPage() {
-                this
-                    .$router
-                    .push({path: '/LoginPage', params: {}})
-                    .catch(() => {})
-            },
-            */
             pushData() {
                 for (let content of this.saveContents) {
-                    this.$store.state.contents.currentContent.id = parseInt(content.id);
-                    this.$store.state.contents.currentContent.userID = String(content.userID);
-                    this.$store.state.contents.currentContent.title = String(content.title);
-                    this.$store.state.contents.currentContent.content = String(content.content);
+                    this.$store.state.contents.DataProcessContent.id = parseInt(content.id);
+                    this.$store.state.contents.DataProcessContent.userID = String(content.userID);
+                    this.$store.state.contents.DataProcessContent.title = String(content.title);
+                    this.$store.state.contents.DataProcessContent.content = String(content.content);
                     //console.log(this.$store.state.contents.currentContent);
                     this
                         .$store
-                        .commit("ADD_CONTENT", this.$store.state.contents.currentContent);
+                        .commit("ADD_CONTENT", this.$store.state.contents.DataProcessContent);
                 }
             },
             goThisContentPage(ContentID) {
+                //ID전달을 쿼리가 아닌, vuex로 처리하는거지.
+                this
+                    .$store
+                    .commit("FIND_CONTENT", ContentID);
                 this
                     .$router
-                    .push({
-                        path: '/ContentDetailPage',
-                        query: {
-                            ID: ContentID
-                        }
-                    })
+                    .push({path: '/ContentDetailPage'})
                     .catch(() => {})
                 }
         }
     }
 </script>
 <style>
+    .text-h2 {
+        font-weight: 700 !important;
+    }
+    .carouselStyle{
+        width: 1000px;
+    }
+    .ContentMargin {
+        margin-left: 3%;
+        margin-right: 3%;
+    }
     h1 {
         /*글자에 그라디에이션 주는 효과*/
         font-size: 60px;
@@ -124,7 +152,7 @@
         color: transparent;
         -webkit-background-clip: text;
     }
-    .LoginCheckLayout {
-        float: right;
+    .createContentBtn{
+         float: right;
     }
 </style>
