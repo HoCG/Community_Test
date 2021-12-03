@@ -62,15 +62,6 @@
                 else{
                     alert("아이디 또는 비밀번호가 틀렸습니다. 다시 입력해주세요.")
                 }
-            },
-            backStartPage(){
-                this
-                .$router
-                .push({
-                    path: "/",
-                    query: {
-                    }
-                })
             }
         }
     };
