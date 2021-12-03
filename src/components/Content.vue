@@ -4,13 +4,13 @@
         <v-layout justify-center="justify-center">
             <h3>
                 {{
-                this.content.title
+                content.title
                 }}
             </h3>
         </v-layout>
         <v-card-text>
             {{
-                this.content.content
+                content.content
             }}
         </v-card-text>
     </v-card>

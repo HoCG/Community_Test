@@ -1,9 +1,9 @@
 <!--로그인 페이지-->
 <template>
-    <v-layout max-width="100%" justify-center="justify-center">
+    <v-layout justify-center="justify-center">
         <v-card-actions class="justify-center" max-width="100%">
-            <v-card>
-                <v-toolbar dark="dark" color="primary">
+            <v-card class="LoginForm">
+                <v-toolbar justify-center="justify-center" dark="dark" color="primary">
                     <v-toolbar-title>로그인 해주세요.</v-toolbar-title>
                 </v-toolbar>
                 <v-card-text>
@@ -62,11 +62,23 @@
                 else{
                     alert("아이디 또는 비밀번호가 틀렸습니다. 다시 입력해주세요.")
                 }
+            },
+            backStartPage(){
+                this
+                .$router
+                .push({
+                    path: "/",
+                    query: {
+                    }
+                })
             }
         }
     };
 </script>
 <style>    
+    .LoginForm {
+        width: 500px;
+    }
     .link {
         width: 100% !important;
         height: 100% !important;

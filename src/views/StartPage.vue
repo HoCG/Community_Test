@@ -66,10 +66,12 @@
     import Content from "../components/Content.vue";
     export default {
         mounted() {
+            /*
             this
                 .$store
                 .commit("FORMAT_ALLCONTENTS");
             this.pushData();
+            */
             this
                 .$store
                 .commit("MAKE_RANDOM_CONTENTS");
@@ -142,6 +144,7 @@
         width: 1000px;
     }
     .ContentMargin {
+        cursor: pointer;
         margin-left: 3%;
         margin-right: 3%;
     }

@@ -22,6 +22,9 @@ const mutations = {
         console.log(state.AllContents.find(c => c.id === parseInt(ContentID)));
         state.currentContent = state.AllContents.find(c => c.id === parseInt(ContentID))
     },
+    FORMAT_DATACONTENT(state){
+        state.DataProcessContent = initContent();
+    },
     FORMAT_ALLCONTENTS(state){
         state.AllContents = [];
     },
@@ -56,7 +59,7 @@ const mutations = {
 
     //이벤트를 추가하는 과정.
     ADD_CONTENT(state, getContent) {
-        getContent = makeContent(getContent);
+        getContent = makeContent(state, getContent);
         state
             .AllContents
             .push(getContent);
@@ -118,9 +121,9 @@ const getTime = (time) => {
 
 // 백엔드의 관점에서 볼때 time과 date를 나눠서 저장하게 되면 변수도 많아질 뿐더러 굉장히 비효율적일 수 밖에 없다. 저장하는 변수의
 // 양을 줄일 수 있다면 줄이는게 맞는것이므로 이렇게 합쳐서 저장한다.
-const makeContent = (content) => {
+const makeContent = (state ,content) => {
     return {
-        id: content.id,
+        id: state.AllContents.length,
         userID: content.userID,
         title: content.title,
         content: content.content,

@@ -52,6 +52,9 @@
     };
 </script>
 <style>
+    .shrink{
+        cursor: pointer;
+    }
     .LoginCheckLayout {
         float: right;  
     }
