@@ -126,7 +126,8 @@ const makeUser = (TheUser_usedByData) => {
         id: TheUser_usedByData.id,
         password: TheUser_usedByData.password,
         userName: TheUser_usedByData.userName,
-        userBirthDay: TheUser_usedByData.userBirthDay
+        userBirthDay: TheUser_usedByData.userBirthDay,
+        startDay: TheUser_usedByData.startDay
         /*
         ,
         start: event.startDate + getTime(event.startTime),
@@ -141,7 +142,8 @@ function initUser() {
         id: '',
         password: '',
         userName: '',
-        userBirthDay: ''
+        userBirthDay: '',
+        startDay:'',
     }
 }
 

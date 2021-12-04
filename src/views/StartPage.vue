@@ -28,7 +28,7 @@
                     </template>
                     <!--페이지에 대한 안내를 담은 부분. carousel-item을 활용해서 보여지도록 하였다.-->
                     <v-carousel-item v-for="(color, i) in colors" :key="i">
-                        <v-sheet :color="color" width="1000px" height="100%">
+                        <v-sheet :color="color" height="100%">
                             <v-row class="fill-height" align="center" justify="center">
                                 <div class="text-h2">
                                     {{ texts[i] }}

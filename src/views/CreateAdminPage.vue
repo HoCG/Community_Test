@@ -94,6 +94,12 @@
             NewAdminCheck() {
                 if (this.passwordOverlapCheck(this.admin.password, this.passwordCheck)) {
                     if (this.passwordUniquenessCheck(this.admin.id, this.admin.password)) {
+                        let today = new Date();  
+                        let year = today.getFullYear();
+                        let month = ('0' + (today.getMonth() + 1)).slice(-2);
+                        let day = ('0' + today.getDate()).slice(-2);
+                        let dateString = year + '-' + month  + '-' + day;
+                        this.admin.startDay = dateString;
                         //가입일까지 추가시키자.
                         this
                             .$store

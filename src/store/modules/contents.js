@@ -113,21 +113,18 @@ const mutations = {
 //비동기 처리들.
 const actions = {};
 
-const getTime = (time) => {
-    return time === null
-        ? ''
-        : ` ${time}`;
-};
 
 // 백엔드의 관점에서 볼때 time과 date를 나눠서 저장하게 되면 변수도 많아질 뿐더러 굉장히 비효율적일 수 밖에 없다. 저장하는 변수의
 // 양을 줄일 수 있다면 줄이는게 맞는것이므로 이렇게 합쳐서 저장한다.
 const makeContent = (state ,content) => {
     return {
         id: state.AllContents.length,
+        image: content.image,
         userID: content.userID,
         title: content.title,
         content: content.content,
-        start: content.startDate + getTime(content.startTime),
+        startDate: content.startDate,
+        startTime: content.startTime
         //색은 랜덤으로 지정. 여기서 만약 겹치는 날짜를 가지고 있는 이벤트가 있다면 그 색이 겹치지 않도록 설정하는것도 필요할듯.
     }
 };
@@ -137,14 +134,12 @@ const updateContent = (content) => {
     //데이터로 이미지를 추가해보는건? https://stackoverflow.com/questions/53412106/linking-to-images-referenced-in-vuex-store-in-vue-js
     return {
         id: content.id,
-        startDate: content
-            .start
-            .substr(0, 10), //합쳐진 배열에서 Date와 Time의 String 위치는 항상 동일하므로 substr로
-        startTime: content
-            .start
-            .substr(11, 5), //String 위치를 가져와도 무방하다.
+        image: content.image,
+        userID: content.userID,
+        title: content.title,
         content: content.content,
-        title: content.name
+        startDate: content.startDate,
+        startTime: content.startTime
     }
 }
 
@@ -153,6 +148,7 @@ function initContent() {
     return {
         id: '',
         userID: '',
+        image: '',
         title: '',
         startDate: '',
         startTime: '',

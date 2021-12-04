@@ -20,10 +20,11 @@
                         <h2 width="100%">
                             유저이름:
                             {{
-                                this.LoginUser.name
+                                this.LoginUser.userName
                             }}
                         </h2>
                     </v-layout>
+                    <br>
                     <v-layout>
                         <h2 width="100%">
                             생일:
@@ -32,14 +33,13 @@
                             }}
                         </h2>
                     </v-layout>
+                    <br>
                     <v-layout>
                         <h2 width="100%">
                             가입일:
-                            <!--여기는 데이터를 만들지 않아서 만들어야함...
                             {{
-                                this.LoginUser.startDate
+                                this.LoginUser.startDay
                             }}
-                            -->
                         </h2>
                     </v-layout>
                 </div>

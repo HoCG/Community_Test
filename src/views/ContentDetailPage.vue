@@ -17,11 +17,20 @@
                     <br>
                     <v-layout class="ContentWriter" justify-center="justify-center">
                         <v-spacer></v-spacer>
-                        <span>{{
+                        <span>작성자: {{
                                 this.content.userID
                             }}</span>
                     </v-layout>
                     <br>
+                    <v-layout class="ContentWriter" justify-center="justify-center">
+                        <v-spacer></v-spacer>
+                        <span>작성일: {{
+                                this.content.startDate + this.content.startTime
+                            }}</span>
+                    </v-layout>
+                    <br>
+                    <br>
+                    <img :src="content.image" alt="" width="100%">
                     <br>
                     <v-layout justify-center="justify-center">
                         <v-list-item-title>

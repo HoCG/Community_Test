@@ -9,9 +9,20 @@
                     <v-layout class="ContentTitle" justify-center="justify-center">
                         <v-text-field label="제목" v-model="content.title"></v-text-field>
                     </v-layout>
+                    <img :src="image" alt="" width="100%">
                     <v-layout justify-center="justify-center">
                         <v-textarea label="내용" v-model="content.content"></v-textarea>
                     </v-layout>
+                    <div>
+                        <form method="post" enctype="multipart/form-data">
+                            <div>
+                                <label for="chooseFile">
+                                    upload
+                                </label>
+                            </div>
+                        <input ref="image" @change="uploadImg()" type="file" id="chooseFile" name="chooseFile" accept="image/*">
+                        </form>
+                    </div>
                     <v-card-actions>
                         <v-btn color="primary" @click="AddContent">글 등록</v-btn>
                     </v-card-actions>
@@ -29,6 +40,9 @@
         components: {
             BackToStartPage
         },
+        data() {
+            return {image : ''};
+        },
         computed: {
             content() {
                 this
@@ -38,9 +52,29 @@
             }
         },
         methods: {
+            uploadImg() {
+                console.log('들어왔다')
+                var image = this.$refs['image'].files[0]
+                const url = URL.createObjectURL(image)
+                this.image = url
+                this.$store.state.contents.DataProcessContent.image = this.image;
+                console.log(url)
+                console.log(this.image)
+            },
             AddContent() {
                 if (String(this.$store.state.contents.DataProcessContent.title).length > 0) {
                     this.$store.state.contents.DataProcessContent.userID = this.$store.state.admin.currentUser.id;
+                    let today = new Date();   
+                    let hours = ('0' + today.getHours()).slice(-2); 
+                    let minutes = ('0' + today.getMinutes()).slice(-2);
+                    let seconds = ('0' + today.getSeconds()).slice(-2); 
+                    let timeString = hours + ':' + minutes  + ':' + seconds;
+                    let year = today.getFullYear();
+                    let month = ('0' + (today.getMonth() + 1)).slice(-2);
+                    let day = ('0' + today.getDate()).slice(-2);
+                    let dateString = year + '-' + month  + '-' + day;
+                    this.$store.state.contents.DataProcessContent.startDate = dateString;
+                    this.$store.state.contents.DataProcessContent.startTime = timeString;
                     this
                         .$store
                         .commit("ADD_CONTENT", this.$store.state.contents.DataProcessContent);
