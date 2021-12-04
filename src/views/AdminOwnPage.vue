@@ -2,24 +2,48 @@
 <template>
     <v-layout max-width="100%" justify-center="justify-center">
         <v-card-actions class="justify-center" max-width="100%">
-            <v-card width="100%">
-                <BackToStartPage/>
+            <v-card class="AdminOwnWidth">
                 <v-spacer></v-spacer>
-                <v-layout class="ContentTitle" justify-center="justify-center">
-                    <h2 width="100%">
-                        {{
-                            this.LoginUser.id
-                        }}
-                    </h2>
-                </v-layout>
-                <v-layout justify-center="justify-center">
-                    <v-list-item-title>
-                        유저이름:
-                        {{
-                            this.LoginUser.name
-                        }}
-                    </v-list-item-title>
-                </v-layout>
+                <BackToStartPage/>
+                <div class="MainFrame">
+                    <br>
+                    <v-layout>
+                        <h2 width="100%">
+                            유저아이디:
+                            {{
+                                this.LoginUser.id
+                            }}
+                        </h2>
+                    </v-layout>
+                    <br>
+                    <v-layout>
+                        <h2 width="100%">
+                            유저이름:
+                            {{
+                                this.LoginUser.name
+                            }}
+                        </h2>
+                    </v-layout>
+                    <v-layout>
+                        <h2 width="100%">
+                            생일:
+                            {{
+                                this.LoginUser.userBirthDay
+                            }}
+                        </h2>
+                    </v-layout>
+                    <v-layout>
+                        <h2 width="100%">
+                            가입일:
+                            <!--여기는 데이터를 만들지 않아서 만들어야함...
+                            {{
+                                this.LoginUser.startDate
+                            }}
+                            -->
+                        </h2>
+                    </v-layout>
+                </div>
+                <!--여기는 Content를 불러와서 보여주도록 설정하자.-->
             </v-card>
         </v-card-actions>
     </v-layout>
@@ -38,4 +62,11 @@ export default {
 }
 </script>
 <style>
+    .MainFrame{
+        margin-left: 3%;
+        margin-right: 3%;
+    }
+    .AdminOwnWidth {
+        width: 1000px;
+    }
 </style>

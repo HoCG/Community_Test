@@ -23,7 +23,7 @@
                     <v-spacer></v-spacer>
                     <v-btn color="primary" @click="findAdmin">로그인</v-btn>
                     <v-btn color="primary">
-                        <router-link to="/NewAdmin" class="link">회원가입</router-link>
+                        <router-link to="/CreateAdminPage" class="link">회원가입</router-link>
                     </v-btn>
                     <v-btn color="primary" @click="backStartPage">뒤로가기</v-btn>
                 </v-card-actions>

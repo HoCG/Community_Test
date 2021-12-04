@@ -4,21 +4,33 @@
         <v-card-actions class="justify-center" max-width="100%">
             <v-card class="ContentDetailWidth">
                 <BackToStartPage/>
-                <v-spacer></v-spacer>
-                <v-layout class="ContentTitle" justify-center="justify-center">
-                    <h2 width="100%">
-                        {{
-                            this.content.title
-                        }}
-                    </h2>
-                </v-layout>
-                <v-layout justify-center="justify-center">
-                    <v-list-item-title>
-                        {{
-                            this.content.content
-                        }}
-                    </v-list-item-title>
-                </v-layout>
+                <div class="MainFrame">
+                    <v-spacer></v-spacer>
+                    <v-layout class="ContentTitle" justify-center="justify-center">
+                        <h2 width="100%">
+                            {{
+                                this.content.title
+                            }}
+                        </h2>
+                    </v-layout>
+                    <br>
+                    <br>
+                    <v-layout class="ContentWriter" justify-center="justify-center">
+                        <v-spacer></v-spacer>
+                        <span>{{
+                                this.content.userID
+                            }}</span>
+                    </v-layout>
+                    <br>
+                    <br>
+                    <v-layout justify-center="justify-center">
+                        <v-list-item-title>
+                            {{
+                                this.content.content
+                            }}
+                        </v-list-item-title>
+                    </v-layout>
+                </div>
             </v-card>
         </v-card-actions>
     </v-layout>
@@ -39,7 +51,10 @@
     }
 </script>
 <style>
-    .ContentDetailWidth{
+    .ContentWriter {
+        float: right;
+    }
+    .ContentDetailWidth {
         width: 1000px;
     }
     .backToStart {

@@ -2,8 +2,8 @@
 <!--가입일을 다는 기능까지 추가되야 할듯하다.-->
 <template>
     <v-layout max-width="100%" justify-center="justify-center">
-        <v-card-actions class="justify-center" max-width="100%">
-            <v-card>
+        <v-card-actions class="justify-center">
+            <v-card width="1000px">
                 <v-card-text>회원가입</v-card-text>
                 <v-card-text>
                     <v-form>
@@ -19,6 +19,7 @@
                             label="password"
                             type="password"
                             v-model="admin.password"></v-text-field>
+                        <span>비밀번호는 영문, 숫자, 특수문자 조합으로 10~15자리로 만들어주세요! </span>
                         <v-text-field
                             prepend-icon="mdi-lock"
                             name="password check"
@@ -68,14 +69,16 @@
                 }
             },
             passwordUniquenessCheck(id, password) {
-                if (!/^[a-zA-Z0-9]{10,15}$/.test(password)) {
-                    alert('숫자와 영문자 조합으로 10~15자리를 사용해야 합니다.');
+                !/^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{8,16}$/
+                if (!/^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{10,16}$/.test(password)) {
+                    alert('숫자와 영문자, 특수문자 조합으로 10~15자리를 사용해야 합니다.');
                     return false;
                 }
                 let checkNumber = password.search(/[0-9]/g);
                 let checkEnglish = password.search(/[a-z]/ig);
-                if (checkNumber < 0 || checkEnglish < 0) {
-                    alert("숫자와 영문자를 혼용하여야 합니다.");
+                let checkSpecialText = password.search(/[$`~!@$!%*#^?&\\(\\)\-_=+]/)
+                if (checkNumber < 0 || checkEnglish < 0 || checkSpecialText < 0) {
+                    alert("숫자와 영문자, 그리고 특수문자를 혼용하여야 합니다.");
                     return false;
                 }
                 if (/(\w)\1\1\1/.test(password)) {
@@ -98,7 +101,11 @@
                         this
                             .$router
                             .push({path: "/", query: {}})
+                        alert("회원가입 성공! 가입을 환영합니다.");
                     }
+                }
+                else{
+                    alert("비밀번호와 비밀번호확인이 일치하지않습니다. 다시 작성해주세요")
                 }
             },
             backStartPage() {

@@ -4,16 +4,18 @@
         <v-card-actions class="justify-center" max-width="100%">
             <v-card justify-center="justify-center" class="CreateContentPageWidth">
                 <BackToStartPage/>
-                <v-spacer></v-spacer>
-                <v-layout class="ContentTitle" justify-center="justify-center">
-                    <v-text-field label="제목" v-model="content.title"></v-text-field>
-                </v-layout>
-                <v-layout justify-center="justify-center">
-                    <v-textarea label="내용" v-model="content.content"></v-textarea>
-                </v-layout>
-                <v-card-actions>
-                    <v-btn color="primary" @click="AddContent">글 등록</v-btn>
-                </v-card-actions>
+                <div class="MainFrame">
+                    <v-spacer></v-spacer>
+                    <v-layout class="ContentTitle" justify-center="justify-center">
+                        <v-text-field label="제목" v-model="content.title"></v-text-field>
+                    </v-layout>
+                    <v-layout justify-center="justify-center">
+                        <v-textarea label="내용" v-model="content.content"></v-textarea>
+                    </v-layout>
+                    <v-card-actions>
+                        <v-btn color="primary" @click="AddContent">글 등록</v-btn>
+                    </v-card-actions>
+                </div>
             </v-card>
         </v-card-actions>
     </v-layout>
@@ -46,10 +48,10 @@
                         .$router
                         .push({path: '/', params: {}})
                         .catch(() => {})
-                    console.log(this.$store.state.contents.AllContents);
+                    console
+                        .log(this.$store.state.contents.AllContents);
                     alert("글 작성이 완료되었어요!");
-                } 
-                else {
+                } else {
                     alert("제목을 최소 한글자 이상 작성해주세요.");
                 }
             }

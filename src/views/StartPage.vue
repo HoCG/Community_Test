@@ -137,6 +137,10 @@
     }
 </script>
 <style>
+    .MainFrame{
+        margin-left: 3%;
+        margin-right: 3%;
+    }
     .text-h2 {
         font-weight: 700 !important;
     }
