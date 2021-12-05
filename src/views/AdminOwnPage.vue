@@ -43,38 +43,49 @@
                         </h2>
                     </v-layout>
                     <v-card-actions class="justify-center" max-width="100%">
-                        <MyContent
-                            class="ContentMargin"
-                            v-for="Content in DataProcessAllContents"
-                            :key="Content.id"
-                            v-bind:childVaule="Content.id"
-                            @click.native="goThisContentPage(Content.id)"/>
+                        <MyArticle
+                            class="ArticleMargin"
+                            v-for="article in DataProcessAllArticles"
+                            :key="article.id"
+                            v-bind:childVaule="article.id"
+                            @click.native="goThisArticlePage(article.id)"/>
                     </v-card-actions>
                 </div>
-                <!--여기는 Content를 불러와서 보여주도록 설정하자.-->
             </v-card>
         </v-card-actions>
     </v-layout>
 </template>
 <script>
 import BackToStartPage from "../components/BackToStartPage.vue"
-import MyContent from "../components/MyContent.vue";
+import MyArticle from "../components/MyArticle.vue";
 export default {
     mounted() {
         this
             .$store
-            .commit("FIND_MY_ALLCONTENTS", this.$store.state.admin.currentUser.id)
+            .commit("FIND_MY_ALL_ARTICLES", this.$store.state.admin.currentUser.id)
     },
     components: {
         BackToStartPage,
-        MyContent
+        MyArticle
     },
     computed: {
-        DataProcessAllContents() {
-            return this.$store.state.contents.DataProcessAllContents
+        DataProcessAllArticles() {
+            return this.$store.state.articles.DataProcessAllArticles
         },
         LoginUser() {
             return this.$store.state.admin.currentUser;
+        }
+    },
+    methods: {
+         goThisArticlePage(ArticleID) {
+                //ID전달을 쿼리가 아닌, vuex로 처리하는거지.
+                this
+                    .$store
+                    .commit("FIND_ARTICLE", ArticleID);
+                this
+                    .$router
+                    .push({path: '/ArticleDetailPage'})
+                    .catch(() => {})
         }
     }
 }
