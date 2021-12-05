@@ -1,17 +1,16 @@
 const state = {
     currentArticle: initArticle(), //새롭게 등록될 이벤트, 혹은 현재 이벤트.
     AllArticles: [], //저장된 일정들을 담는 배열.
-    DataProcessAllArticles: [],
+    ArticleUpdateMode: false,
+
+    DataProcessAllArticles: [], //데이터 처리를 위한 이벤트
     DataProcessArticle: initArticle()
 };
 
 //사용되는 동작들
 const mutations = {
     //다이얼로그를 열때(이벤트 생성 다이얼로그)
-    OPEN_ARTICLE(state, payload) {
-        state.DataProcessArticle.startDate = payload.date;
-        state.DataProcessArticle.startTime = payload.time;
-    },
+
     FIND_ARTICLE(state, ArticlesID){
         state.currentArticle = state.AllArticles.find(c => c.id === parseInt(ArticlesID));
     },

@@ -6,6 +6,23 @@
                 <BackToStartPage/>
                 <div class="MainFrame">
                     <v-spacer></v-spacer>
+                    <br>
+                    <v-layout class="ArticleWriter">
+                        <v-spacer></v-spacer>
+                        <v-btn v-if="MyArticleCheck" @click="UpdateArticle">
+                            <v-icon>mdi-pencil</v-icon>
+                            <span>수정하기</span>
+                        </v-btn>
+                    </v-layout>
+                    <v-layout class="ArticleWriter">
+                        <v-spacer></v-spacer>
+                        <v-btn v-if="MyArticleCheck" @click="DeleteArticle">
+                            <v-icon>mdi-delete</v-icon>
+                            <span>삭제하기</span>
+                        </v-btn>
+                    </v-layout>
+                    <br>
+                    <br>
                     <v-layout class="ArticleTitle" justify-center="justify-center">
                         <h2 width="100%">
                             {{
@@ -69,13 +86,23 @@
     import Comment from "../components/Comment.vue";
     export default {
         mounted() {
-            this.$store.commit("FIND_ARTICLE_COMMENTS", this.$store.state.articles.currentArticle.id); //댓글정보와
-            this.$store.commit("FIND_DATA_ARTICLE", this.$store.state.articles.currentArticle.id); //현재 글정보를 데이터화해놓는다.
+            this
+                .$store
+                .commit("FIND_ARTICLE_COMMENTS", this.$store.state.articles.currentArticle.id); //댓글정보와
+            this
+                .$store
+                .commit("FIND_DATA_ARTICLE", this.$store.state.articles.currentArticle.id); //현재 글정보를 데이터화해놓는다.
+            let HeartBtn = document.getElementById("HeartBtn");
+            let HeartArr = this.$store.state.articles.AllArticles.find((A) => parseInt(A.id) === this.$store.state.articles.currentArticle.id).HeartLike
+            if (HeartArr.includes(String(this.$store.state.admin.currentUser.id))) { //현재 글을 찾아내고
+                HeartBtn.style.color = "red";
+            } else if (HeartArr.includes(String(this.$store.state.admin.currentUser.id))) {
+                HeartBtn.style.color = "grey";
+            }
         },
         data() {
             return {
-                CommentMode: false,
-                HeartArr: this.$store.state.articles.AllArticles.find((A) => parseInt(A.id) === this.$store.state.articles.currentArticle.id).HeartLike
+                CommentMode: false
             }
         },
         computed: {
@@ -95,22 +122,19 @@
         methods: {
             LikeClick() {
                 let HeartBtn = document.getElementById("HeartBtn");
-                console.log(this.HeartArr);
-                if(this.$store.state.admin.LoginMode){
+                let HeartArr = this.$store.state.articles.AllArticles.find((A) => parseInt(A.id) === this.$store.state.articles.currentArticle.id).HeartLike
+                if (this.$store.state.admin.LoginMode) {
                     //현재 로그인한 유저가 하트를 눌렀는지 확인
-                    if(!this.HeartArr.includes(String(this.$store.state.admin.currentUser.id))){ //현재 글을 찾아내고
-                        this.HeartArr.push(String(this.$store.state.admin.currentUser.id)); //현재 글의 하트배열에 유저의 정보를 넣는다.
+                    if (!HeartArr.includes(String(this.$store.state.admin.currentUser.id))) { //현재 글을 찾아내고
+                        this.$store.state.articles.AllArticles.find((A) => parseInt(A.id) === this.$store.state.articles.currentArticle.id).HeartLike.push(String(this.$store.state.admin.currentUser.id)); //현재 글의 하트배열에 유저의 정보를 넣는다.
                         HeartBtn.style.color = "red";
-                    }
-                    //안눌렀다면
-                    else if(this.HeartArr.includes(String(this.$store.state.admin.currentUser.id))){
-                        this.HeartArr = this.HeartArr.filter(H => String(H) !== String(this.$store.state.admin.currentUser.id));
-                        console.log("클릭상태");
-                        console.log(this.HeartArr);
+                    } else if (HeartArr.includes(String(this.$store.state.admin.currentUser.id))) {
+                        this.$store.state.articles.AllArticles.find((A) => parseInt(A.id) === this.$store.state.articles.currentArticle.id).HeartLike = 
+                            this.$store.state.articles.AllArticles.find((A) => parseInt(A.id) === this.$store.state.articles.currentArticle.id).HeartLike
+                            .filter(H => String(H) !== String(this.$store.state.admin.currentUser.id));
                         HeartBtn.style.color = "grey";
                     }
-                }
-                else{
+                } else {
                     alert("로그인 후에 이용해주세요!")
                 }
             },
@@ -128,20 +152,36 @@
                 )).slice(-2);
                 let day = ('0' + today.getDate()).slice(-2);
                 let dateString = year + '-' + month + '-' + day;
-                let hours = ('0' + today.getHours()).slice(-2); 
+                let hours = ('0' + today.getHours()).slice(-2);
                 let minutes = ('0' + today.getMinutes()).slice(-2);
-                let seconds = ('0' + today.getSeconds()).slice(-2); 
-                let timeString = hours + ':' + minutes  + ':' + seconds;
+                let seconds = ('0' + today.getSeconds()).slice(-2);
+                let timeString = hours + ':' + minutes + ':' + seconds;
                 this.$store.state.comments.Comment.startDate = dateString;
                 this.$store.state.comments.Comment.startTime = timeString;
                 this.$store.state.comments.Comment.userID = this.$store.state.admin.currentUser.id;
-                this.$store.state.comments.Comment.articleID = this
+                this.$store.state.comments.Comment.articleID = this.$store.state.articles.currentArticle.id;
+                this
                     .$store
-                    .state
-                    .articles
-                    .currentArticle
-                    .id;
-                this.$store.commit("ADD_COMMENT", this.$store.state.comments.Comment);
+                    .commit("ADD_COMMENT", this.$store.state.comments.Comment);
+            },
+            MyArticleCheck(){
+                if(this.$store.state.admin.currentUser.id === this.$store.state.articles.currentArticle.userID){
+                    return true;
+                }
+                else{
+                    return false;
+                }
+            },
+            UpdateArticle(){
+                this.$store.state.articles.ArticleUpdateMode = true;
+                this.$store.state.articles.DataProcessArticle = this.$store.state.articles.currentArticle;
+                this
+                    .$router
+                    .push({path: '/CreateArticlePage'})
+                    .catch(() => {})
+            },
+            DeleteArticle(){
+
             }
         }
     }
