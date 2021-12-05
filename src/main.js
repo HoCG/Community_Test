@@ -18,14 +18,14 @@ const routes = [
         path: '/LoginPage',
         component: () => import ('./views/LoginPage.vue')
     }, {
-        path: '/CreateContentPage',
-        component: () => import ('./views/CreateContentPage.vue')
+        path: '/CreateArticlePage',
+        component: () => import ('./views/CreateArticlePage.vue')
     }, {
         path: '/CreateAdminPage',
         component: () => import ('./views/CreateAdminPage.vue')
     }, {
-        path: '/ContentDetailPage',
-        component: () => import ('./views/ContentDetailPage.vue')
+        path: '/ArticleDetailPage',
+        component: () => import ('./views/ArticleDetailPage.vue')
     }, {
         path: '/AdminOwnPage',
         component: () => import ('./views/AdminOwnPage.vue')

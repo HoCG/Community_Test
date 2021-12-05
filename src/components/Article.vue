@@ -4,16 +4,16 @@
         <v-layout justify-center="justify-center">
             <h3>
                 {{
-                content.title
+                article.title
                 }}
             </h3>
         </v-layout>
         <v-layout justify-center="justify-center" width="30%">
-            <img class="IMG" :src="content.image" alt="">
+            <img class="IMG" :src="article.image" alt="">
         </v-layout>
         <v-card-text>
             {{
-                content.content
+                article.content
             }}
         </v-card-text>
         <!--좋아요와 댓글기능 추가해보자.-->
@@ -24,9 +24,9 @@
         name: "ChildComponent",
         props: ["childVaule"],
         computed: {
-            content() {
-                let AllContentsInfo = this.$store.state.contents.AllContents;
-                return AllContentsInfo[parseInt(this.childVaule)];
+            article() {
+                let AllArticlesInfo = this.$store.state.articles.AllArticles;
+                return AllArticlesInfo[parseInt(this.childVaule)];
             }
         },
         methods: {}

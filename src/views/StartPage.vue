@@ -3,9 +3,9 @@
     <v-layout max-width="100%" justify-center="justify-center">
         <v-card-actions class="justify-center" max-width="100%">
             <v-card width="100%">
-                <v-layout class="createContentBtn">
+                <v-layout class="createArticleBtn">
                     <v-spacer></v-spacer><!--정렬방법 찾아냄!!! https://electronic-moongchi.tistory.com/21-->
-                    <v-btn @click="goCreateContentPage()">
+                    <v-btn @click="goCreateArticlePage()">
                         <v-icon color="black"> mdi-pencil</v-icon>
                     </v-btn>
                 </v-layout>
@@ -43,15 +43,15 @@
                     <v-icon color="yellow">mdi-star</v-icon>
                 </v-layout>
                 <v-card-actions class="justify-center" max-width="100%">
-                    <Content
-                        class="ContentMargin"
-                        v-for="Content in DataProcessAllContents"
-                        :key="Content.id"
-                        v-bind:childVaule="Content.id"
-                        @click.native="goThisContentPage(Content.id)"/>
-                    <!--이 컨텐트를 클릭했을때 Content만 따로 보이는 페이지로 넘어가도록 설정해야함. 대신 그때에는 Content 고유의 id를 하나만
+                    <Article
+                        class="ArticleMargin"
+                        v-for="Article in DataProcessAllarticles"
+                        :key="Article.id"
+                        v-bind:childVaule="Article.id"
+                        @click.native="goThisArticlePage(Article.id)"/>
+                    <!--이 컨텐트를 클릭했을때 Article만 따로 보이는 페이지로 넘어가도록 설정해야함. 대신 그때에는 Article 고유의 id를 하나만
                     넘기던가 해서 페이지를 열게끔.-->
-                    <!--parentVaule값으로 content고유 id값을 전달해보는건 어떨까...?-->
+                    <!--parentVaule값으로 Article고유 id값을 전달해보는건 어떨까...?-->
                     <!--여기에 v-for로 랜덤으로 저장되어있는 값들중 무작위로 가져와서 글을 보여주도록 한다. 아니면 최근올린 글 순으로 하던지...
                     https://developerjournal.tistory.com/4 << 이 페이지 참조바람.-->
                 </v-card-actions>
@@ -61,31 +61,31 @@
 </template>
 <script>
 
-    import saveContent_Info from "../assets/saveContent_Info_By_JSON.json"
-    import Content from "../components/Content.vue";
+    import saveArticle_Info from "../assets/saveArticle_Info_By_JSON.json"
+    import Article from "../components/Article.vue";
     export default {
         mounted() {
             /*
             this
                 .$store
-                .commit("FORMAT_ALLCONTENTS");
+                .commit("FORMAT_ALLarticles");
             this.pushData();
             */
             this
                 .$store
-                .commit("MAKE_RANDOM_CONTENTS");
+                .commit("MAKE_RANDOM_ARTICLES");
         },
         computed: {
-            DataProcessAllContents() {
-                return this.$store.state.contents.DataProcessAllContents
+            DataProcessAllarticles() {
+                return this.$store.state.articles.DataProcessAllArticles
             }
         },
         components: {
-            Content
+            Article
         },
         data() {
             return {
-                saveContents: saveContent_Info.contents,
+                saveArticles: saveArticle_Info.articles,
                 parentVaule: 20,
                 colors: [
                     'primary', 'secondary', 'yellow darken-2', 'red', 'orange'
@@ -95,12 +95,12 @@
             };
         },
         methods: {
-            goCreateContentPage(){
+            goCreateArticlePage(){
                 //로그인이 됐나 안됐나 확인할 필요가 전무함.
                 if(this.$store.state.admin.LoginMode){
                     this
                     .$router
-                    .push({path: '/CreateContentPage'})
+                    .push({path: '/CreateArticlePage'})
                     .catch(() => {})
                 }
                 else{
@@ -111,25 +111,25 @@
                 }
             },
             pushData() {
-                for (let content of this.saveContents) {
-                    this.$store.state.contents.DataProcessContent.id = parseInt(content.id);
-                    this.$store.state.contents.DataProcessContent.userID = String(content.userID);
-                    this.$store.state.contents.DataProcessContent.title = String(content.title);
-                    this.$store.state.contents.DataProcessContent.content = String(content.content);
-                    //console.log(this.$store.state.contents.currentContent);
+                for (let Article of this.saveArticles) {
+                    this.$store.state.articles.DataProcessArticle.id = parseInt(Article.id);
+                    this.$store.state.articles.DataProcessArticle.userID = String(Article.userID);
+                    this.$store.state.articles.DataProcessArticle.title = String(Article.title);
+                    this.$store.state.articles.DataProcessArticle.content = String(Article.content);
+                    //console.log(this.$store.state.articles.currentArticle);
                     this
                         .$store
-                        .commit("ADD_CONTENT", this.$store.state.contents.DataProcessContent);
+                        .commit("ADD_ARTICLE", this.$store.state.articles.DataProcessArticle);
                 }
             },
-            goThisContentPage(ContentID) {
+            goThisArticlePage(ArticleID) {
                 //ID전달을 쿼리가 아닌, vuex로 처리하는거지.
                 this
                     .$store
-                    .commit("FIND_CONTENT", ContentID);
+                    .commit("FIND_ARTICLE", ArticleID);
                 this
                     .$router
-                    .push({path: '/ContentDetailPage'})
+                    .push({path: '/ArticleDetailPage'})
                     .catch(() => {})
                 }
         }
@@ -146,7 +146,7 @@
     .carouselStyle{
         width: 1000px;
     }
-    .ContentMargin {
+    .ArticleMargin {
         cursor: pointer;
         margin-left: 3%;
         margin-right: 3%;
@@ -158,7 +158,7 @@
         color: transparent;
         -webkit-background-clip: text;
     }
-    .createContentBtn{
+    .createArticleBtn{
          float: right;
     }
 </style>
