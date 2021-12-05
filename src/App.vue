@@ -52,6 +52,9 @@
     };
 </script>
 <style>
+    .mainScreen{
+        width: 100%;
+    }
     .shrink{
         cursor: pointer;
     }

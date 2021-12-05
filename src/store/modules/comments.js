@@ -7,8 +7,9 @@ const state = {
 //사용되는 동작들
 const mutations = {
     //다이얼로그를 열때(이벤트 생성 다이얼로그)
-    FIND_ARTICLE_COMMENTS(state, ArticleID){
-        state.ArticleComments = state.AllComments.filter(c => c.ArticleID === ArticleID);
+    FIND_ARTICLE_COMMENTS(state, This_articleID){
+        state.ArticleComments = state.AllComments.filter(c => c.articleID === This_articleID);
+        //console.log(state.AllComments.filter(c => c.articleID === This_articleID));
     },
     FORMAT_ALLCOMMENTS(state){
         state.AllComments = [];
@@ -23,8 +24,8 @@ const mutations = {
             .push(getComment);
         state.Comment = initComment();
     },
-    ADD_COMMENT(state, getComment, This_ArticleID) {
-        getComment = makeComment(state, getComment, This_ArticleID);
+    ADD_COMMENT(state, getComment) {
+        getComment = makeComment(state, getComment);
         state
             .AllComments
             .push(getComment);
@@ -47,12 +48,14 @@ const actions = {};
 
 // 백엔드의 관점에서 볼때 time과 date를 나눠서 저장하게 되면 변수도 많아질 뿐더러 굉장히 비효율적일 수 밖에 없다. 저장하는 변수의
 // 양을 줄일 수 있다면 줄이는게 맞는것이므로 이렇게 합쳐서 저장한다.
-const makeComment = (state ,comment, This_articleID) => {
+const makeComment = (state ,comment) => {
     return {
         id: state.AllComments.length,   //댓글 고유 id
-        articleID: This_articleID,
+        articleID: comment.articleID,
         userID: comment.userID, 
-        comment: comment.comment
+        comment: comment.comment,
+        startDate: comment.startDate,
+        startTime: comment.startTime
         //색은 랜덤으로 지정. 여기서 만약 겹치는 날짜를 가지고 있는 이벤트가 있다면 그 색이 겹치지 않도록 설정하는것도 필요할듯.
     }
 };
@@ -75,7 +78,9 @@ function initComment() {
         id: '',   //댓글 고유 id
         articleID: '',
         userID: '', 
-        comment: ''
+        comment: '',
+        startDate: '',
+        startTime: ''
     }
 }
 

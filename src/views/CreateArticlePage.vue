@@ -34,9 +34,6 @@
 <script>
     import BackToStartPage from "../components/BackToStartPage.vue"
     export default {
-        mounted: {
-            //로그인 모드가 아니라면 강제로 해당페이지에 벗어나도록 설정하자.
-        },
         components: {
             BackToStartPage
         },
@@ -53,13 +50,10 @@
         },
         methods: {
             uploadImg() {
-                console.log('들어왔다')
                 var image = this.$refs['image'].files[0]
                 const url = URL.createObjectURL(image)
                 this.image = url
                 this.$store.state.articles.DataProcessArticle.image = this.image;
-                console.log(url)
-                console.log(this.image)
             },
             AddArticle() {
                 if (String(this.$store.state.articles.DataProcessArticle.title).length > 0) {

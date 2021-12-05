@@ -127,7 +127,9 @@ const makeUser = (TheUser_usedByData) => {
         password: TheUser_usedByData.password,
         userName: TheUser_usedByData.userName,
         userBirthDay: TheUser_usedByData.userBirthDay,
-        startDay: TheUser_usedByData.startDay
+        startDay: TheUser_usedByData.startDay,
+        profileImage: TheUser_usedByData.profileImage,
+        backgroundImage: TheUser_usedByData.backgroundImage
         /*
         ,
         start: event.startDate + getTime(event.startTime),
@@ -143,7 +145,9 @@ function initUser() {
         password: '',
         userName: '',
         userBirthDay: '',
-        startDay:'',
+        startDay: '',
+        profileImage: '',
+        backgroundImage: ''
     }
 }
 

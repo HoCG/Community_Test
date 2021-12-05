@@ -127,6 +127,7 @@
                 this
                     .$store
                     .commit("FIND_ARTICLE", ArticleID);
+                this.$store.commit("FIND_ARTICLE_COMMENTS", ArticleID);
                 this
                     .$router
                     .push({path: '/ArticleDetailPage'})
@@ -139,6 +140,7 @@
     .MainFrame{
         margin-left: 3%;
         margin-right: 3%;
+        margin-bottom: 3%;
     }
     .text-h2 {
         font-weight: 700 !important;

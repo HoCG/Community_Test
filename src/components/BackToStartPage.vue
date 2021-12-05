@@ -1,5 +1,5 @@
 <template>
-    <v-toolbar>
+    <v-toolbar color="mainColor">
         <v-layout class="backToStart">
             <v-spacer></v-spacer>
             <v-btn @click="backStartPage()">

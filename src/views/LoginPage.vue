@@ -3,15 +3,19 @@
     <v-layout justify-center="justify-center">
         <v-card-actions class="justify-center" max-width="100%">
             <v-card class="LoginForm">
-                <v-toolbar justify-center="justify-center" dark="dark" color="primary">
-                    <v-toolbar-title>로그인 해주세요.</v-toolbar-title>
+                <v-toolbar justify-center="justify-center" dark="dark" color="mainColor">
+                    <v-toolbar-title class="fontSetting">로그인 해주세요.</v-toolbar-title>
                 </v-toolbar>
                 <v-card-text>
                     <v-form>
-                        <v-text-field prepend-icon="mdi-account" name="login" label="Login" type="text" v-model="admin.id">
-                        </v-text-field>
                         <v-text-field
-                            prepend-icon="mdi-lock" 
+                            prepend-icon="mdi-account"
+                            name="login"
+                            label="Login"
+                            type="text"
+                            v-model="admin.id"></v-text-field>
+                        <v-text-field
+                            prepend-icon="mdi-lock"
                             id="password"
                             name="password"
                             label="Password"
@@ -21,11 +25,13 @@
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="primary" @click="findAdmin">로그인</v-btn>
-                    <v-btn color="primary">
-                        <router-link to="/CreateAdminPage" class="link">회원가입</router-link>
+                    <v-btn color="mainColor" @click="findAdmin">로그인</v-btn>
+                    <v-btn color="mainColor">
+                        <router-link to="/CreateAdminPage" class="link">
+                            <span class="fontSetting">회원가입</span>
+                        </router-link>
                     </v-btn>
-                    <v-btn color="primary" @click="backStartPage">뒤로가기</v-btn>
+                    <v-btn color="mainColor" @click="backStartPage">뒤로가기</v-btn>
                 </v-card-actions>
             </v-card>
         </v-card-actions>
@@ -41,7 +47,9 @@
             this.$store.state.admin.currentUser.userName = "관리자"
             this.$store.state.admin.currentUser.userBirthDay = 20201212
             this.$store.state.admin.currentUser.startDay = "0000-00-00"
-            this.$store.commit("ADD_NEW_USER", this.$store.state.admin.currentUser);
+            this
+                .$store
+                .commit("ADD_NEW_USER", this.$store.state.admin.currentUser);
         },
         computed: {
             admin() {
@@ -52,33 +60,34 @@
             return {email: null, password: null, validationErrors: []};
         },
         methods: {
-            findAdmin(){
-                this.$store.commit('FIND_USER', this.admin);
-                if(this.$store.state.admin.AllClear){
+            findAdmin() {
+                this
+                    .$store
+                    .commit('FIND_USER', this.admin);
+                if (this.$store.state.admin.AllClear) {
                     alert("로그인 성공!")
-                    this.$router.push({path: '/', params: {}})
-                    .catch(() => {})
-                }
-                else if(this.$store.state.admin.ID_or_PasswordError){
+                    this
+                        .$router
+                        .push({path: '/', params: {}})
+                        .catch(() => {})
+                    } else if (this.$store.state.admin.ID_or_PasswordError) {
                     alert("비밀번호가 틀렸습니다. 다시 입력해주세요.");
-                }
-                else{
+                } else {
                     alert("아이디 또는 비밀번호가 틀렸습니다. 다시 입력해주세요.")
                 }
             },
-            backStartPage(){
+            backStartPage() {
                 this
-                .$router
-                .push({
-                    path: "/",
-                    query: {
-                    }
-                })
+                    .$router
+                    .push({path: "/", query: {}})
             }
         }
     };
 </script>
-<style>    
+<style>
+    .fontSetting {
+        color: black;
+    }
     .LoginForm {
         width: 500px;
     }

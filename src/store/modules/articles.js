@@ -13,13 +13,16 @@ const mutations = {
         state.DataProcessArticle.startTime = payload.time;
     },
     FIND_ARTICLE(state, ArticlesID){
-        console.log(state.AllArticles.find(c => c.id === parseInt(ArticlesID)));
-        state.currentArticle = state.AllArticles.find(c => c.id === parseInt(ArticlesID))
+        state.currentArticle = state.AllArticles.find(c => c.id === parseInt(ArticlesID));
+    },
+    FIND_DATA_ARTICLE(state, ArticlesID){
+        state.DataProcessArticle = initArticle();
+        state.DataProcessArticle = state.AllArticles.find(c => c.id === parseInt(ArticlesID));
     },
     FIND_MY_ALL_ARTICLES(state, userID){
         state.DataProcessAllArticles = state.AllArticles.filter(c => c.userID === userID);
     },
-    FORMAT_DATA_ARTICLES(state){
+    FORMAT_DATA_ARTICLE(state){
         state.DataProcessArticle = initArticle();
     },
     FORMAT_ALL_ARTICLES(state){
@@ -38,7 +41,6 @@ const mutations = {
             else{
                 i--;
             }
-            //console.log(state.AllArticles[randomNum(0, state.AllArticles.length - 1)]);
         }
     },
     //이벤트를 수정하는 동작이다. 클릭된 일정에 id가 일치하지 않는 event를 events내에서 찾아내고
@@ -60,7 +62,6 @@ const mutations = {
         state
             .AllArticles
             .push(getArticles);
-        //console.log(getArticles);
         state.DataProcessArticle = initArticle();
     },
 
@@ -101,7 +102,6 @@ const mutations = {
         state.AllArticles = state
             .AllArticles
             .filter(e => e.id !== getEvent.id);
-        //console.log(state.AllArticles);
         state.eventDetailDialog = false;
         state.DataProcessArticle = initArticle();
     }
@@ -122,6 +122,7 @@ const makeArticle = (state ,Articles) => {
         startDate: Articles.startDate,
         startTime: Articles.startTime,
         content: Articles.content,
+        HeartLike: Articles.HeartLike
         //색은 랜덤으로 지정. 여기서 만약 겹치는 날짜를 가지고 있는 이벤트가 있다면 그 색이 겹치지 않도록 설정하는것도 필요할듯.
     }
 };
@@ -137,12 +138,7 @@ const updateArticle = (Articles) => {
         startDate: Articles.startDate,
         startTime: Articles.startTime,
         content: Articles.content,
-        HeartLike: [
-            {
-                userID: Articles.HeartLike.userID, //좋아요한 유저
-                HeartCount: Articles.HeartLike.HeartCount //좋아요수
-            }
-        ]
+        HeartLike: Articles.HeartLike
     }
 }
 
@@ -156,12 +152,7 @@ function initArticle() {
         startDate: '', //작성일
         startTime: '', //작성시간
         content: '',  //내용
-        HeartLike: [
-            {
-                commentUserID: '', //좋아요한 유저
-                HeartCount: '' //좋아요수
-            }
-        ]
+        HeartLike: []
     }
 }
 
