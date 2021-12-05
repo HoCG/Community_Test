@@ -43,10 +43,9 @@
                     <v-icon color="yellow">mdi-star</v-icon>
                 </v-layout>
                 <v-card-actions class="justify-center" max-width="100%">
-                    <!--이 for문은 지금 동작하지 않는다. 데이터를 필요로함.-->
                     <Content
                         class="ContentMargin"
-                        v-for="Content in randomContents"
+                        v-for="Content in DataProcessAllContents"
                         :key="Content.id"
                         v-bind:childVaule="Content.id"
                         @click.native="goThisContentPage(Content.id)"/>
@@ -77,8 +76,8 @@
                 .commit("MAKE_RANDOM_CONTENTS");
         },
         computed: {
-            randomContents() {
-                return this.$store.state.contents.randomContents
+            DataProcessAllContents() {
+                return this.$store.state.contents.DataProcessAllContents
             }
         },
         components: {

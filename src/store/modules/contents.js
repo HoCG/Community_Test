@@ -1,14 +1,8 @@
 const state = {
     currentContent: initContent(), //새롭게 등록될 이벤트, 혹은 현재 이벤트.
     AllContents: [], //저장된 일정들을 담는 배열.
-    randomContents: [],
-
-    //데이터 처리를 위한 Content값
+    DataProcessAllContents: [],
     DataProcessContent: initContent()
-
-
-    //코멘트를 다는 기능도 필요하지 않을까...?
-    //좋아요도 필요할듯...?
 };
 
 //사용되는 동작들
@@ -22,6 +16,9 @@ const mutations = {
         console.log(state.AllContents.find(c => c.id === parseInt(ContentID)));
         state.currentContent = state.AllContents.find(c => c.id === parseInt(ContentID))
     },
+    FIND_MY_ALLCONTENTS(state, userID){
+        state.DataProcessAllContents = state.AllContents.filter(c => c.userID === userID);
+    },
     FORMAT_DATACONTENT(state){
         state.DataProcessContent = initContent();
     },
@@ -30,13 +27,13 @@ const mutations = {
     },
     MAKE_RANDOM_CONTENTS(state){
         //중복제거 코드가 필요할듯.
-        state.randomContents = [];
+        state.DataProcessAllContents = [];
         let randomCheckArr = [];
         for(let i = 0; i < state.AllContents.length; i++){
             let n = randomNum(0, state.AllContents.length-1);
             if(randomCheckArr.indexOf(n) === -1){
                 randomCheckArr.push(n);
-                state.randomContents.push(state.AllContents[n]);
+                state.DataProcessAllContents.push(state.AllContents[n]);
             }
             else{
                 i--;
@@ -122,9 +119,9 @@ const makeContent = (state ,content) => {
         image: content.image,
         userID: content.userID,
         title: content.title,
-        content: content.content,
         startDate: content.startDate,
-        startTime: content.startTime
+        startTime: content.startTime,
+        content: content.content,
         //색은 랜덤으로 지정. 여기서 만약 겹치는 날짜를 가지고 있는 이벤트가 있다면 그 색이 겹치지 않도록 설정하는것도 필요할듯.
     }
 };
@@ -137,22 +134,34 @@ const updateContent = (content) => {
         image: content.image,
         userID: content.userID,
         title: content.title,
-        content: content.content,
         startDate: content.startDate,
-        startTime: content.startTime
+        startTime: content.startTime,
+        content: content.content,
+        HeartLike: [
+            {
+                userID: content.HeartLike.userID, //좋아요한 유저
+                HeartCount: content.HeartLike.HeartCount //좋아요수
+            }
+        ]
     }
 }
 
 //이벤트의 형태를 잡아주는 변수.
 function initContent() {
     return {
-        id: '',
-        userID: '',
-        image: '',
-        title: '',
-        startDate: '',
-        startTime: '',
-        content: ''  //내용
+        id: '',  //컨텐츠 아이디
+        image: '',  //사진
+        userID: '', //작성자 ID(작성자 ID를 통해 연결되어 있다.)
+        title: '',  //컨텐츠 제목
+        startDate: '', //작성일
+        startTime: '', //작성시간
+        content: '',  //내용
+        HeartLike: [
+            {
+                commentUserID: '', //좋아요한 유저
+                HeartCount: '' //좋아요수
+            }
+        ]
     }
 }
 
