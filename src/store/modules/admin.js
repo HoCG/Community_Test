@@ -31,7 +31,7 @@ const mutations = {
         state.AllUsersInfo = state
             .AllUsersInfo
             .filter(e => e.id !== getUser.id); //이벤트배열의 재구성.
-            getUser = makeUser(state, getUser); //그리고 배열을 추가.
+            getUser = makeUser(getUser); //그리고 배열을 추가.
         state
             .AllUsersInfo
             .push(getUser);
@@ -59,6 +59,10 @@ const mutations = {
             state.ID_or_PasswordError = false;
             state.passwordError = true;
         }
+    },
+    CURRENT_USER_SETTING(state, getUser){
+        state.currentUser = state.AllUsersInfo.find(e => e.id === getUser.id);
+        console.log(state.currentUser)
     },
     //이벤트를 추가하는 과정.
     ADD_NEW_USER(state, getUser) {

@@ -42,14 +42,16 @@
     export default {
         mounted() {
             //for Test
-            this.$store.state.admin.currentUser.id = "hostid"
-            this.$store.state.admin.currentUser.password = "ditodghk12"
-            this.$store.state.admin.currentUser.userName = "관리자"
-            this.$store.state.admin.currentUser.userBirthDay = 20201212
-            this.$store.state.admin.currentUser.startDay = "0000-00-00"
-            this
-                .$store
-                .commit("ADD_NEW_USER", this.$store.state.admin.currentUser);
+            if(!this.$store.state.admin.AllUsersInfo.map(u => u.id).includes("hostid")){
+                this.$store.state.admin.currentUser.id = "hostid"
+                this.$store.state.admin.currentUser.password = "ditodghk12"
+                this.$store.state.admin.currentUser.userName = "관리자"
+                this.$store.state.admin.currentUser.userBirthDay = 20201212
+                this.$store.state.admin.currentUser.startDay = "0000-00-00"
+                this
+                    .$store
+                    .commit("ADD_NEW_USER", this.$store.state.admin.currentUser);
+            }
         },
         computed: {
             admin() {
@@ -65,6 +67,9 @@
                     .$store
                     .commit('FIND_USER', this.admin);
                 if (this.$store.state.admin.AllClear) {
+                    this
+                        .$store
+                        .commit('CURRENT_USER_SETTING', this.admin);
                     alert("로그인 성공!")
                     this
                         .$router

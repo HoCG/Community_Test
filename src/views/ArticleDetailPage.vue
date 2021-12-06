@@ -73,6 +73,7 @@
                         <v-btn @click="AddComment">댓글등록</v-btn>
                     </v-layout>
                     <br>
+                    <!--만약 내가 작성한 댓글이고 로그인을 한 상태라면 >> 자연스럽게 x로 된 삭제버튼이 나오도록 구성하면 될듯.-->
                     <Comment
                             v-for="comment in this.$store.state.comments.ArticleComments"
                             :key="comment.id"
@@ -148,9 +149,7 @@
             AddComment() {
                 let today = new Date();
                 let year = today.getFullYear();
-                let month = ('0' + (
-                    today.getMonth() + 1
-                )).slice(-2);
+                let month = ('0' + (today.getMonth() + 1)).slice(-2);
                 let day = ('0' + today.getDate()).slice(-2);
                 let dateString = year + '-' + month + '-' + day;
                 let hours = ('0' + today.getHours()).slice(-2);

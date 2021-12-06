@@ -63,7 +63,6 @@ const mutations = {
     //이벤트를 추가하는 과정.
     ADD_ARTICLE(state, getArticles) {
         let checkOverlapID = 0;
-        console.log(state.AllArticles.map(e => e.id))
         while(state.AllArticles.map(e => e.id).includes(parseInt(checkOverlapID)) === true){
             checkOverlapID++;
         } 

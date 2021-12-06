@@ -7,47 +7,50 @@
                 <BackToStartPage/>
                 <div class="MainFrame">
                     <br>
-                    <v-layout>
-                        <img class="profileIMG" :src="this.LoginUser.profileImage" alt="" width="100%">
-                    </v-layout>
-                    <v-layout>
-                        <input ref="profileIMG" @change="uploadProfileIMG()" type="file" id="chooseFile" name="chooseFile" accept="image/*">
-                    </v-layout>
-                    <v-layout>    
-                        <h2 width="100%">
-                            유저아이디:
-                            {{
-                                this.LoginUser.id
-                            }}
-                        </h2>
-                    </v-layout>
-                    <br>
-                    <v-layout>
-                        <h2 width="100%">
-                            유저이름:
-                            {{
-                                this.LoginUser.userName
-                            }}
-                        </h2>
-                    </v-layout>
-                    <br>
-                    <v-layout>
-                        <h2 width="100%">
-                            생일:
-                            {{
-                                this.LoginUser.userBirthDay
-                            }}
-                        </h2>
-                    </v-layout>
-                    <br>
-                    <v-layout>
-                        <h2 width="100%">
-                            가입일:
-                            {{
-                                this.LoginUser.startDay
-                            }}
-                        </h2>
-                    </v-layout>
+                    <v-img :src="this.LoginUser.backgroundImage" alt="" width="100%" height="600px">
+                        <input ref="backgroundIMG" @change="uploadBackgroundIMG()" type="file" id="chooseFile" name="chooseFile" accept="image/*">
+                        <v-layout class="profileIMG">
+                            <v-img class="profileIMG" :src="this.LoginUser.profileImage" width="100px" alt=""></v-img>
+                        </v-layout>
+                        <v-layout>
+                            <input ref="profileIMG" @change="uploadProfileIMG()" type="file" id="chooseFile" name="chooseFile" accept="image/*">
+                        </v-layout>
+                        <v-layout>    
+                            <h2 width="100%">
+                                유저아이디:
+                                {{
+                                    this.LoginUser.id
+                                }}  
+                            </h2>
+                        </v-layout>
+                        <br>
+                        <v-layout>
+                            <h2 width="100%">
+                                유저이름:
+                                {{
+                                    this.LoginUser.userName
+                                }}
+                            </h2>
+                        </v-layout>
+                        <br>
+                        <v-layout>
+                            <h2 width="100%">
+                                생일:
+                                {{
+                                    this.LoginUser.userBirthDay
+                                }}
+                            </h2>
+                        </v-layout>
+                        <br>
+                        <v-layout>
+                            <h2 width="100%">
+                                가입일:
+                                {{
+                                    this.LoginUser.startDay
+                                }}
+                            </h2>
+                        </v-layout>
+                    </v-img>
                     <v-card-actions class="justify-center" max-width="100%">
                         <MyArticle
                             class="ArticleMargin"
@@ -66,7 +69,10 @@ import BackToStartPage from "../components/BackToStartPage.vue"
 import MyArticle from "../components/MyArticle.vue";
 export default {
     data() {
-        return {profileIMG : ''};
+        return {
+            profileIMG : '',
+            backgroundIMG: ''
+        };
     },
     mounted() {
         this
@@ -91,6 +97,15 @@ export default {
             const url = URL.createObjectURL(image);
             this.profileIMG = url
             this.$store.state.admin.currentUser.profileImage = this.profileIMG;
+            this
+                .$store
+                .commit("UPDATE_USER_INFO", this.$store.state.admin.currentUser);
+        },
+        uploadBackgroundIMG() {
+            let image = this.$refs['backgroundIMG'].files[0];
+            const url = URL.createObjectURL(image);
+            this.backgroundIMG = url
+            this.$store.state.admin.currentUser.backgroundImage = this.backgroundIMG;
             this
                 .$store
                 .commit("UPDATE_USER_INFO", this.$store.state.admin.currentUser);
