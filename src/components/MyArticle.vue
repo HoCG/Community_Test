@@ -22,13 +22,20 @@
     export default {
         name: "ChildComponent",
         props: ["childVaule"],
-        computed: {
-            article() {
-                let AllArticlesInfo = this.$store.state.articles.AllArticles;
-                return AllArticlesInfo[parseInt(this.childVaule)];
+        mounted() {
+            let AllArticlesInfo = this.$store.state.articles.AllArticles;
+            for(let Article of AllArticlesInfo){
+                if(Article.id === parseInt(this.childVaule)){
+                    this.article = Article;
+                }
             }
         },
-        methods: {}
+        methods: {},
+        data(){
+            return{
+                article: ''
+            }
+        }
     }
 </script>
 <style>

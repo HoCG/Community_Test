@@ -39,7 +39,13 @@ const mutations = {
                 .AllComments
                 .push(makeComment(state, e));
         });
-    }
+    },
+    DELETE_COMMENT(state, getComment) {
+        state.AllComments = state
+            .AllComments
+            .filter(e => e.id !== getComment.id);
+        state.Comment = initComment();
+    },
 };
 
 //비동기 처리들.

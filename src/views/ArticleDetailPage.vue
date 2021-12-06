@@ -72,6 +72,7 @@
                         <v-textarea label="댓글을 달아주세요!" v-model="comment.comment"></v-textarea>
                         <v-btn @click="AddComment">댓글등록</v-btn>
                     </v-layout>
+                    <br>
                     <Comment
                             v-for="comment in this.$store.state.comments.ArticleComments"
                             :key="comment.id"
@@ -130,12 +131,12 @@
                         HeartBtn.style.color = "red";
                     } else if (HeartArr.includes(String(this.$store.state.admin.currentUser.id))) {
                         this.$store.state.articles.AllArticles.find((A) => parseInt(A.id) === this.$store.state.articles.currentArticle.id).HeartLike = 
-                            this.$store.state.articles.AllArticles.find((A) => parseInt(A.id) === this.$store.state.articles.currentArticle.id).HeartLike
+                        this.$store.state.articles.AllArticles.find((A) => parseInt(A.id) === this.$store.state.articles.currentArticle.id).HeartLike
                             .filter(H => String(H) !== String(this.$store.state.admin.currentUser.id));
                         HeartBtn.style.color = "grey";
                     }
                 } else {
-                    alert("로그인 후에 이용해주세요!")
+                    alert("로그인 후에 이용해주세요!");
                 }
             },
             ShowCommentMode() {
@@ -174,14 +175,17 @@
             },
             UpdateArticle(){
                 this.$store.state.articles.ArticleUpdateMode = true;
-                this.$store.state.articles.DataProcessArticle = this.$store.state.articles.currentArticle;
                 this
                     .$router
                     .push({path: '/CreateArticlePage'})
                     .catch(() => {})
             },
             DeleteArticle(){
-
+                this
+                    .$store
+                    .commit("DELETE_ARTICLE", this.$store.state.articles.currentArticle);
+                alert("해당 게시물이 삭제되었습니다!")
+                this.$router.go(-1);
             }
         }
     }

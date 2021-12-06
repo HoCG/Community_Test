@@ -4,7 +4,6 @@ const state = {
     ArticleUpdateMode: false,
 
     DataProcessAllArticles: [], //데이터 처리를 위한 이벤트
-    DataProcessArticle: initArticle()
 };
 
 //사용되는 동작들
@@ -15,14 +14,14 @@ const mutations = {
         state.currentArticle = state.AllArticles.find(c => c.id === parseInt(ArticlesID));
     },
     FIND_DATA_ARTICLE(state, ArticlesID){
-        state.DataProcessArticle = initArticle();
-        state.DataProcessArticle = state.AllArticles.find(c => c.id === parseInt(ArticlesID));
+        state.currentArticle = initArticle();
+        state.currentArticle = state.AllArticles.find(c => c.id === parseInt(ArticlesID));
     },
     FIND_MY_ALL_ARTICLES(state, userID){
         state.DataProcessAllArticles = state.AllArticles.filter(c => c.userID === userID);
     },
     FORMAT_DATA_ARTICLE(state){
-        state.DataProcessArticle = initArticle();
+        state.currentArticle = initArticle();
     },
     FORMAT_ALL_ARTICLES(state){
         state.AllArticles = [];
@@ -44,24 +43,36 @@ const mutations = {
     },
     //이벤트를 수정하는 동작이다. 클릭된 일정에 id가 일치하지 않는 event를 events내에서 찾아내고
     //찾아낸 이벤트값들로 events 배열을 재구성하고 최종적으로 수정된 event를 집어넣어주면 끝이다.
-    UPDATE_ARTICLES(state, getArticles) {
+    UPDATE_ARTICLE(state, getArticles) {
+        //아이디 중복을 피할수 있는 계산이 필요할듯?
+        let checkOverlapID = 0;
+        while(state.AllArticles.map(e => e.id).includes(parseInt(checkOverlapID)) === true){
+            checkOverlapID++;
+        }
         state.AllArticles = state
             .AllArticles
             .filter(e => e.id !== getArticles.id); //이벤트배열의 재구성.
-            getArticles = makeArticle(state, getArticles); //그리고 배열을 추가.
+        getArticles.id = checkOverlapID;
+        getArticles = updateArticle(getArticles); //그리고 배열을 추가.
         state
             .AllArticles
             .push(getArticles);
-        state.DataProcessArticle = initArticle();
+        state.currentArticle = initArticle();
     },
 
     //이벤트를 추가하는 과정.
     ADD_ARTICLE(state, getArticles) {
+        let checkOverlapID = 0;
+        console.log(state.AllArticles.map(e => e.id))
+        while(state.AllArticles.map(e => e.id).includes(parseInt(checkOverlapID)) === true){
+            checkOverlapID++;
+        } 
+        getArticles.id = checkOverlapID;
         getArticles = makeArticle(state, getArticles);
         state
             .AllArticles
             .push(getArticles);
-        state.DataProcessArticle = initArticle();
+        state.currentArticle = initArticle();
     },
 
     //쓰는일이 없는 함수이지만, 혹시몰라서 냅둠.
@@ -80,21 +91,22 @@ const mutations = {
             .AllArticles
             .forEach(e => {
                 if (e.id === Articles.id) {
-                    state.DataProcessArticle = e;
+                    state.currentArticle = e;
                 }
             })
     },
     
     //이벤트를 업데이트하는 다이얼로그를 출력하게 도와주는 함수.
     UPDATE_ARTICLES_BY_DETAIL(state, getArticles) {
-        state.DataProcessArticle = updateArticle(getArticles);
+        state.currentArticle = updateArticle(getArticles);
     },
-
-    //디테일 이벤트를 닫는 함수.
-    CLOSE_ARTICLES_ABOUT_DETAIL(state) {
-        state.DataProcessArticle = initArticle();
+    DELETE_ARTICLE(state, getEvent) {
+        state.AllArticles = state
+            .AllArticles
+            .filter(e => e.id !== getEvent.id);
+        state.currentArticle = initArticle();
+        state.currentArticle = initArticle();
     },
-
     //이벤트를 삭제하는 함수. 디테일 다이얼로그내에서 진행되는 동작이기때문에 state.eventDetailDialog = false;
     //다음과같은 변수선언이 존재한다.
     DELETE_ARTICLES_ABOUT_DETAIL(state, getEvent) {
@@ -102,7 +114,7 @@ const mutations = {
             .AllArticles
             .filter(e => e.id !== getEvent.id);
         state.eventDetailDialog = false;
-        state.DataProcessArticle = initArticle();
+        state.currentArticle = initArticle();
     }
 };
 
@@ -114,7 +126,7 @@ const actions = {};
 // 양을 줄일 수 있다면 줄이는게 맞는것이므로 이렇게 합쳐서 저장한다.
 const makeArticle = (state ,Articles) => {
     return {
-        id: state.AllArticles.length,
+        id: Articles.id,
         image: Articles.image,
         userID: Articles.userID,
         title: Articles.title,

@@ -9,12 +9,13 @@
                         <v-icon color="black"> mdi-pencil</v-icon>
                     </v-btn>
                 </v-layout>
+                <br>
+                <br>
                 <v-layout max-width="100%" justify-center="justify-center">
                     <h1>
                         Welcome HoCGtagram
                     </h1>
                 </v-layout>
-
                 <v-carousel
                     class="carouselStyle"
                     cycle="cycle"
@@ -65,19 +66,13 @@
     import Article from "../components/Article.vue";
     export default {
         mounted() {
-            /*
-            this
-                .$store
-                .commit("FORMAT_ALLarticles");
-            this.pushData();
-            */
             this
                 .$store
                 .commit("MAKE_RANDOM_ARTICLES");
         },
         computed: {
             DataProcessAllarticles() {
-                return this.$store.state.articles.DataProcessAllArticles
+                return this.$store.state.articles.AllArticles
             }
         },
         components: {
@@ -102,6 +97,9 @@
                     .$router
                     .push({path: '/CreateArticlePage'})
                     .catch(() => {})
+                    this
+                        .$store
+                        .commit("FORMAT_DATA_ARTICLE");
                 }
                 else{
                     this
@@ -112,14 +110,14 @@
             },
             pushData() {
                 for (let Article of this.saveArticles) {
-                    this.$store.state.articles.DataProcessArticle.id = parseInt(Article.id);
-                    this.$store.state.articles.DataProcessArticle.userID = String(Article.userID);
-                    this.$store.state.articles.DataProcessArticle.title = String(Article.title);
-                    this.$store.state.articles.DataProcessArticle.content = String(Article.content);
+                    this.$store.state.articles.currentArticle.id = parseInt(Article.id);
+                    this.$store.state.articles.currentArticle.userID = String(Article.userID);
+                    this.$store.state.articles.currentArticle.title = String(Article.title);
+                    this.$store.state.articles.currentArticle.content = String(Article.content);
                     //console.log(this.$store.state.articles.currentArticle);
                     this
                         .$store
-                        .commit("ADD_ARTICLE", this.$store.state.articles.DataProcessArticle);
+                        .commit("ADD_ARTICLE", this.$store.state.articles.currentArticle);
                 }
             },
             goThisArticlePage(ArticleID) {
@@ -127,7 +125,9 @@
                 this
                     .$store
                     .commit("FIND_ARTICLE", ArticleID);
-                this.$store.commit("FIND_ARTICLE_COMMENTS", ArticleID);
+                this
+                    .$store
+                    .commit("FIND_ARTICLE_COMMENTS", ArticleID);
                 this
                     .$router
                     .push({path: '/ArticleDetailPage'})

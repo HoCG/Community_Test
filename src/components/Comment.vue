@@ -32,13 +32,20 @@
     export default {
         name: "ChildComponent",
         props: ["childVaule"],
-        computed: {
-            comment() {
-                let AllCommentsInfo = this.$store.state.comments.AllComments;
-                return AllCommentsInfo[parseInt(this.childVaule)];
+        mounted() {
+            let AllCommentsInfo = this.$store.state.comments.AllComments;
+            for(let Comment of AllCommentsInfo){
+                if(Comment.id === parseInt(this.childVaule)){
+                    this.comment = Comment;
+                }
             }
         },
-        methods: {}
+        methods: {},
+        data(){
+            return{
+                comment: ''
+            }
+        }
     }
 </script>
 <style>

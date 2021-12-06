@@ -4,7 +4,7 @@
         <v-layout justify-center="justify-center">
             <h3>
                 {{
-                article.title
+                this.article.title
                 }}
             </h3>
         </v-layout>
@@ -13,7 +13,7 @@
         </v-layout>
         <v-card-text>
             {{
-                article.content
+                this.article.content
             }}
         </v-card-text>
         <!--좋아요와 댓글기능 추가해보자.-->
@@ -23,13 +23,20 @@
     export default {
         name: "ChildComponent",
         props: ["childVaule"],
-        computed: {
-            article() {
-                let AllArticlesInfo = this.$store.state.articles.AllArticles;
-                return AllArticlesInfo[parseInt(this.childVaule)];
+        mounted() {
+            let AllArticlesInfo = this.$store.state.articles.AllArticles;
+            for(let Article of AllArticlesInfo){
+                if(Article.id === parseInt(this.childVaule)){
+                    this.article = Article;
+                }
             }
         },
-        methods: {}
+        methods: {},
+        data(){
+            return{
+                article: ''
+            }
+        }
     }
 </script>
 <style>

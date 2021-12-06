@@ -8,6 +8,12 @@
                 <div class="MainFrame">
                     <br>
                     <v-layout>
+                        <img class="profileIMG" :src="this.LoginUser.profileImage" alt="" width="100%">
+                    </v-layout>
+                    <v-layout>
+                        <input ref="profileIMG" @change="uploadProfileIMG()" type="file" id="chooseFile" name="chooseFile" accept="image/*">
+                    </v-layout>
+                    <v-layout>    
                         <h2 width="100%">
                             유저아이디:
                             {{
@@ -59,6 +65,9 @@
 import BackToStartPage from "../components/BackToStartPage.vue"
 import MyArticle from "../components/MyArticle.vue";
 export default {
+    data() {
+        return {profileIMG : ''};
+    },
     mounted() {
         this
             .$store
@@ -77,6 +86,15 @@ export default {
         }
     },
     methods: {
+        uploadProfileIMG() {
+            let image = this.$refs['profileIMG'].files[0];
+            const url = URL.createObjectURL(image);
+            this.profileIMG = url
+            this.$store.state.admin.currentUser.profileImage = this.profileIMG;
+            this
+                .$store
+                .commit("UPDATE_USER_INFO", this.$store.state.admin.currentUser);
+        },
          goThisArticlePage(ArticleID) {
                 //ID전달을 쿼리가 아닌, vuex로 처리하는거지.
                 this
@@ -91,6 +109,11 @@ export default {
 }
 </script>
 <style>
+    .profileIMG{
+        width: 100px;
+        height:100px;
+        border-radius: 50px; /* 이미지 반크기만큼 반경을 잡기*/
+    }
     .MainFrame{
         margin-left: 3%;
         margin-right: 3%;
