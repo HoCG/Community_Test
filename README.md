@@ -1,4 +1,4 @@
-# instagram
+# HoCGtagram
 
 😺게시판 기능을 연습하는 레퍼지토리입니다.
 
