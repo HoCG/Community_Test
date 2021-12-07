@@ -1,10 +1,21 @@
 <!--작성된 글을 컴포넌츠화 해서 보여주는 페이지.-->
 <template>
     <v-card justify-center="justify-center"  width="50%">
+        <v-toolbar color="mainColor">
+            <v-layout>
+                <v-img class="profileIMG" :src="this.writingUser.profileImage" @click="goAdminOwnPage" alt="" width="30px" height="30px"></v-img>
+                <v-list-item-title>
+                    &nbsp;
+                    {{
+                        this.writingUser.id
+                    }}
+                </v-list-item-title>
+            </v-layout>
+        </v-toolbar>
         <v-layout justify-center="justify-center">
             <h3>
                 {{
-                this.article.title
+                    this.article.title
                 }}
             </h3>
         </v-layout>
@@ -30,16 +41,25 @@
                     this.article = Article;
                 }
             }
+            this.writingUser = this.$store.state.admin.AllUsersInfo.find((A) => A.id === this.article.userID);
         },
-        methods: {},
+        methods: {
+            goAdminOwnPage(){
+
+            },
+        },
         data(){
             return{
+                writingUser: '',
                 article: ''
             }
         }
     }
 </script>
 <style>
+    .profileIMG{
+        border-radius: 50px; /* 이미지 반크기만큼 반경을 잡기*/
+    }
     .IMG{
         width: 30%;
     }

@@ -34,10 +34,12 @@
                     <br>
                     <v-layout class="ArticleWriter" justify-center="justify-center">
                         <v-spacer></v-spacer>
-                        <span>작성자: {{
+                        <v-img class="profileIMG" :src="this.writingUser.profileImage" @click="goAdminOwnPage" alt="" width="30px" height="30px"></v-img>
+                        <v-list-item-title>작성자: {{
                                 this.article.userID
-                            }}</span>
+                            }}</v-list-item-title>
                     </v-layout>
+                    <br>
                     <br>
                     <v-layout class="ArticleWriter" justify-center="justify-center">
                         <v-spacer></v-spacer>
@@ -65,10 +67,15 @@
                     <br>
                     <v-layout justify-center="justify-center">
                         <v-icon id="HeartBtn" @click="LikeClick">mdi-heart</v-icon>
+                        <span > 좋아요 {{
+                                this.article.HeartCount
+                            }}&nbsp;</span>
                         <v-icon color="grey" @click="ShowCommentMode">mdi-comment</v-icon>
                         <v-spacer></v-spacer>
                     </v-layout>
-                    <v-layout v-if="CommentMode">
+                    <br>
+                    <br>
+                    <v-layout width="100%" v-if="CommentMode">
                         <v-textarea label="댓글을 달아주세요!" v-model="comment.comment"></v-textarea>
                         <v-btn @click="AddComment">댓글등록</v-btn>
                     </v-layout>
@@ -93,18 +100,26 @@
                 .commit("FIND_ARTICLE_COMMENTS", this.$store.state.articles.currentArticle.id); //댓글정보와
             this
                 .$store
-                .commit("FIND_DATA_ARTICLE", this.$store.state.articles.currentArticle.id); //현재 글정보를 데이터화해놓는다.
+                .commit("FIND_ARTICLE", this.$store.state.articles.currentArticle.id); //현재 글정보를 데이터화해놓는다.
+            //코드가 완전 더럽지만... 좋아요를 했는지 안했는지 확인하는 절차라고 생각하면 됨.
             let HeartBtn = document.getElementById("HeartBtn");
-            let HeartArr = this.$store.state.articles.AllArticles.find((A) => parseInt(A.id) === this.$store.state.articles.currentArticle.id).HeartLike
+            let HeartArr = this.$store.state.articles.AllArticles.find((A) => parseInt(A.id) === this.$store.state.articles.currentArticle.id).HeartLike //좋아요한 정보를 가지고온다.
             if (HeartArr.includes(String(this.$store.state.admin.currentUser.id))) { //현재 글을 찾아내고
                 HeartBtn.style.color = "red";
             } else if (HeartArr.includes(String(this.$store.state.admin.currentUser.id))) {
                 HeartBtn.style.color = "grey";
             }
+            if(this.$store.state.admin.currentUser.id === this.$store.state.articles.currentArticle.userID){
+                this.MyArticleCheck = true;
+            }
+            else{
+                this.MyArticleCheck = false;
+            }
         },
         data() {
             return {
-                CommentMode: false
+                CommentMode: false,
+                MyArticleCheck: false
             }
         },
         computed: {
@@ -115,6 +130,9 @@
                 // 새로고침하니까 자꾸 데이터가 다날라가는데... 이문제 해결을 위해 라우터를 통해 데이터를 받기보단 vuex내에서 저장하고 해결하는 식으로
                 // 해야할듯?
                 return this.$store.state.articles.currentArticle;
+            },
+            writingUser(){
+                return this.$store.state.admin.AllUsersInfo.find((A) => A.id === this.$store.state.articles.currentArticle.userID);
             }
         },
         components: {
@@ -129,11 +147,13 @@
                     //현재 로그인한 유저가 하트를 눌렀는지 확인
                     if (!HeartArr.includes(String(this.$store.state.admin.currentUser.id))) { //현재 글을 찾아내고
                         this.$store.state.articles.AllArticles.find((A) => parseInt(A.id) === this.$store.state.articles.currentArticle.id).HeartLike.push(String(this.$store.state.admin.currentUser.id)); //현재 글의 하트배열에 유저의 정보를 넣는다.
+                        this.$store.state.articles.AllArticles.find((A) => parseInt(A.id) === this.$store.state.articles.currentArticle.id).HeartCount++;
                         HeartBtn.style.color = "red";
                     } else if (HeartArr.includes(String(this.$store.state.admin.currentUser.id))) {
                         this.$store.state.articles.AllArticles.find((A) => parseInt(A.id) === this.$store.state.articles.currentArticle.id).HeartLike = 
                         this.$store.state.articles.AllArticles.find((A) => parseInt(A.id) === this.$store.state.articles.currentArticle.id).HeartLike
                             .filter(H => String(H) !== String(this.$store.state.admin.currentUser.id));
+                        this.$store.state.articles.AllArticles.find((A) => parseInt(A.id) === this.$store.state.articles.currentArticle.id).HeartCount--;
                         HeartBtn.style.color = "grey";
                     }
                 } else {
@@ -164,13 +184,8 @@
                     .$store
                     .commit("ADD_COMMENT", this.$store.state.comments.Comment);
             },
-            MyArticleCheck(){
-                if(this.$store.state.admin.currentUser.id === this.$store.state.articles.currentArticle.userID){
-                    return true;
-                }
-                else{
-                    return false;
-                }
+            goAdminOwnPage(){
+
             },
             UpdateArticle(){
                 this.$store.state.articles.ArticleUpdateMode = true;
@@ -190,6 +205,12 @@
     }
 </script>
 <style>
+    .btnSetting{
+        float: left;
+    }
+    .profileIMG{
+        border-radius: 50px; /* 이미지 반크기만큼 반경을 잡기*/
+    }
     .ArticleContent{
         margin-top: 3%;
         margin-left: 3%;

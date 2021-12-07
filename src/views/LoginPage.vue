@@ -51,6 +51,14 @@
                 this
                     .$store
                     .commit("ADD_NEW_USER", this.$store.state.admin.currentUser);
+                this.$store.state.admin.currentUser.id = "hostid2"
+                this.$store.state.admin.currentUser.password = "ditodghk12"
+                this.$store.state.admin.currentUser.userName = "관리자2"
+                this.$store.state.admin.currentUser.userBirthDay = 20201212
+                this.$store.state.admin.currentUser.startDay = "0000-00-00"
+                this
+                    .$store
+                    .commit("ADD_NEW_USER", this.$store.state.admin.currentUser);
             }
         },
         computed: {

@@ -2,6 +2,7 @@
 <template>
     <v-card justify-center="justify-center" width="100%">
         <v-layout>
+            <v-img></v-img>
             <h3>
                 &nbsp;
                 작성자: 

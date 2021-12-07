@@ -13,10 +13,6 @@ const mutations = {
     FIND_ARTICLE(state, ArticlesID){
         state.currentArticle = state.AllArticles.find(c => c.id === parseInt(ArticlesID));
     },
-    FIND_DATA_ARTICLE(state, ArticlesID){
-        state.currentArticle = initArticle();
-        state.currentArticle = state.AllArticles.find(c => c.id === parseInt(ArticlesID));
-    },
     FIND_MY_ALL_ARTICLES(state, userID){
         state.DataProcessAllArticles = state.AllArticles.filter(c => c.userID === userID);
     },
@@ -67,7 +63,7 @@ const mutations = {
             checkOverlapID++;
         } 
         getArticles.id = checkOverlapID;
-        getArticles = makeArticle(state, getArticles);
+        getArticles = makeArticle(getArticles);
         state
             .AllArticles
             .push(getArticles);
@@ -80,7 +76,7 @@ const mutations = {
         AllArticles.forEach(e => {
             state
                 .AllArticles
-                .push(makeArticle(state, e));
+                .push(makeArticle(e));
         });
     },
     
@@ -123,7 +119,7 @@ const actions = {};
 
 // 백엔드의 관점에서 볼때 time과 date를 나눠서 저장하게 되면 변수도 많아질 뿐더러 굉장히 비효율적일 수 밖에 없다. 저장하는 변수의
 // 양을 줄일 수 있다면 줄이는게 맞는것이므로 이렇게 합쳐서 저장한다.
-const makeArticle = (state ,Articles) => {
+const makeArticle = (Articles) => {
     return {
         id: Articles.id,
         image: Articles.image,
@@ -132,7 +128,8 @@ const makeArticle = (state ,Articles) => {
         startDate: Articles.startDate,
         startTime: Articles.startTime,
         content: Articles.content,
-        HeartLike: Articles.HeartLike
+        HeartLike: Articles.HeartLike,
+        HeartCount: Articles.HeartCount,
         //색은 랜덤으로 지정. 여기서 만약 겹치는 날짜를 가지고 있는 이벤트가 있다면 그 색이 겹치지 않도록 설정하는것도 필요할듯.
     }
 };
@@ -148,7 +145,8 @@ const updateArticle = (Articles) => {
         startDate: Articles.startDate,
         startTime: Articles.startTime,
         content: Articles.content,
-        HeartLike: Articles.HeartLike
+        HeartLike: Articles.HeartLike,
+        HeartCount: Articles.HeartCount,
     }
 }
 
@@ -162,7 +160,8 @@ function initArticle() {
         startDate: '', //작성일
         startTime: '', //작성시간
         content: '',  //내용
-        HeartLike: []
+        HeartLike: [],
+        HeartCount: 0,
     }
 }
 
