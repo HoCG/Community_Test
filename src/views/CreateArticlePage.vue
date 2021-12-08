@@ -10,19 +10,20 @@
                         <v-text-field label="제목" v-model="article.title"></v-text-field>
                     </v-layout>
                     <img :src="image" alt="" width="100%">
+                    <v-layout>
+                        <div class="image-upload">
+                            <label for="image-input">
+                                <v-icon size="15px" color="black">mdi-camera</v-icon>
+                            </label>
+                            <input ref="image" @change="uploadImg()" type="file" id="image-input" accept="image/*">
+                        </div>
+                        <span>
+                             &nbsp; 
+                            Image</span>
+                    </v-layout>
                     <v-layout justify-center="justify-center">
                         <v-textarea label="내용" v-model="article.content"></v-textarea>
                     </v-layout>
-                    <div>
-                        <form method="post" enctype="multipart/form-data">
-                            <div>
-                                <label for="chooseFile">
-                                    upload
-                                </label>
-                            </div>
-                        <input ref="image" @change="uploadImg()" type="file" id="chooseFile" name="chooseFile" accept="image/*">
-                        </form>
-                    </div>
                     <v-layout justify-center="justify-center">
                         <v-card-actions justify-center="justify-center">
                             <v-btn color="primary" v-if="!checkUpdate" @click="AddArticle">글 등록</v-btn>
@@ -132,6 +133,22 @@
     }
 </script>
 <style>
+    .image-upload{
+        background-color: #CCCCCC;
+        border-radius: 50px;
+        height: 25px;
+        width: 25px;
+        
+    }
+    .image-upload>label {
+        margin-left: 20%;
+        justify-content: center;
+        vertical-align: middle;
+        width: 100%
+    }
+    .image-upload>input {
+        display: none;
+    }
     .MainFrame{
         margin-left: 3%;
         margin-right: 3%;

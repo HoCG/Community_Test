@@ -100,7 +100,6 @@ const mutations = {
             .AllArticles
             .filter(e => e.id !== getEvent.id);
         state.currentArticle = initArticle();
-        state.currentArticle = initArticle();
     },
     //이벤트를 삭제하는 함수. 디테일 다이얼로그내에서 진행되는 동작이기때문에 state.eventDetailDialog = false;
     //다음과같은 변수선언이 존재한다.

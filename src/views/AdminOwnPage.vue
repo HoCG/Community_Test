@@ -5,15 +5,35 @@
             <v-card class="AdminOwnWidth">
                 <v-spacer></v-spacer>
                 <BackToStartPage/>
-                <div class="MainFrame">
+                <br>
+                <v-img :src="this.LoginUser.backgroundImage" alt="" width="100%" height="600px">
                     <br>
-                    <v-img :src="this.LoginUser.backgroundImage" alt="" width="100%" height="600px">
-                        <input ref="backgroundIMG" @change="uploadBackgroundIMG()" type="file" id="chooseFile" name="chooseFile" accept="image/*">
+                    <div class="MainFrame">
+                        <v-layout>
+                            <v-spacer></v-spacer>
+                            <div class="image-upload">
+                                <label for="background-input">
+                                    <v-icon size="15px" color="black">mdi-camera</v-icon>
+                                </label>
+                                <input ref="backgroundIMG" @change="uploadBackgroundIMG()" type="file" id="background-input" accept="image/*">
+                            </div>
+                            <span>
+                                &nbsp; 
+                                BackGround-Image</span>
+                        </v-layout>
                         <v-layout class="profileIMG">
                             <v-img class="profileIMG" :src="this.LoginUser.profileImage" width="100px" alt=""></v-img>
                         </v-layout>
                         <v-layout>
-                            <input ref="profileIMG" @change="uploadProfileIMG()" type="file" id="chooseFile" name="chooseFile" accept="image/*">
+                            <div class="image-upload">
+                                <label for="profile-input">
+                                    <v-icon size="15px" color="black">mdi-camera</v-icon>
+                                </label>
+                                <input ref="profileIMG" @change="uploadProfileIMG()" type="file" id="profile-input" accept="image/*">
+                            </div>
+                            <span>
+                                &nbsp; 
+                                Profile-Image</span>
                         </v-layout>
                         <v-layout>    
                             <h2 width="100%">
@@ -50,16 +70,16 @@
                                 }}
                             </h2>
                         </v-layout>
+                    </div>
                     </v-img>
-                    <v-card-actions class="justify-center" max-width="100%">
+                <v-card-actions class="justify-center" max-width="100%">
                         <MyArticle
                             class="ArticleMargin"
                             v-for="article in DataProcessAllArticles"
                             :key="article.id"
                             v-bind:childVaule="article.id"
                             @click.native="goThisArticlePage(article.id)"/>
-                    </v-card-actions>
-                </div>
+                </v-card-actions>
             </v-card>
         </v-card-actions>
     </v-layout>
@@ -124,6 +144,28 @@ export default {
 }
 </script>
 <style>
+    .image-upload{
+        background-color: #CCCCCC;
+        border-radius: 50px;
+        height: 25px;
+        width: 25px;
+        
+    }
+    .image-upload>label {
+        margin-left: 20%;
+        justify-content: center;
+        vertical-align: middle;
+        width: 100%
+    }
+    .image-upload>input {
+        display: none;
+    }
+    #chooseFile{
+        background-image: url("../assets/camera.png") no-repeat;
+        height: 25px;
+        width: 25px;
+        border-radius: 50px;
+    }
     .profileIMG{
         width: 100px;
         height:100px;

@@ -11,15 +11,19 @@
                 }}
             </h3>
             <v-spacer></v-spacer>
-            <span class="date">
-                {{
-                    comment.startDate
-                }}
-                &nbsp;{{
-                    comment.startTime
-                }}
-            </span>
+            <!--바로 삭제가 안되는 문제점... 좀더 고민해보도록 하자.-->
+            <button @click="CommentDelete" class="MyCommentIcon"><v-icon>mdi-close</v-icon></button>
         </v-layout>
+        <span class="date">
+            {{
+                comment.startDate
+            }}
+            &nbsp;{{
+                comment.startTime
+            }}
+        </span>
+        <br>
+        <br>
         <v-layout justify-center="justify-center" width="30%"></v-layout>
         <v-card-text>
             {{
@@ -41,7 +45,12 @@
                 }
             }
         },
-        methods: {},
+        methods: {
+            CommentDelete(){
+                let CommentID = this.comment.id;
+                this.$emit("CommentDelete", CommentID)
+            }
+        },
         data(){
             return{
                 comment: ''
@@ -50,6 +59,12 @@
     }
 </script>
 <style>
+    .MyCommentIcon {
+        background-color: #626262;
+        width: 24px;
+        height: 24px;
+        border-radius: 50px;
+    }
     .date {
         float: right;
         margin: 1%;

@@ -82,9 +82,10 @@
                     <br>
                     <!--만약 내가 작성한 댓글이고 로그인을 한 상태라면 >> 자연스럽게 x로 된 삭제버튼이 나오도록 구성하면 될듯.-->
                     <Comment
-                            v-for="comment in this.$store.state.comments.ArticleComments"
-                            :key="comment.id"
-                            v-bind:childVaule="comment.id"/>
+                        @CommentDelete="CommentDelete"
+                        v-for="comment in this.$store.state.comments.ArticleComments"
+                        :key="comment.id"
+                        v-bind:childVaule="comment.id"/>
                 </div>
             </v-card>
         </v-card-actions>
@@ -119,7 +120,8 @@
         data() {
             return {
                 CommentMode: false,
-                MyArticleCheck: false
+                MyArticleCheck: false,
+                getComment: ''
             }
         },
         computed: {
@@ -200,6 +202,19 @@
                     .commit("DELETE_ARTICLE", this.$store.state.articles.currentArticle);
                 alert("해당 게시물이 삭제되었습니다!")
                 this.$router.go(-1);
+            },
+            CommentDelete(CommentID){
+                this
+                    .$store
+                    .commit("DELETE_COMMENT", CommentID);
+            },
+            DeleteCheck(CommentID){
+                if(this.$store.comments.AllComments.map(c => c.id).includes(CommentID)){
+                    return true;
+                }
+                else{
+                    return false;
+                }
             }
         }
     }

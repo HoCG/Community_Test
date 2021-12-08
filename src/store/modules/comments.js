@@ -40,10 +40,10 @@ const mutations = {
                 .push(makeComment(state, e));
         });
     },
-    DELETE_COMMENT(state, getComment) {
+    DELETE_COMMENT(state, getCommentID) {
         state.AllComments = state
             .AllComments
-            .filter(e => e.id !== getComment.id);
+            .filter(e => e.id !== getCommentID);
         state.Comment = initComment();
     },
 };
