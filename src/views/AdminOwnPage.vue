@@ -19,7 +19,17 @@
                             </div>
                             <span>
                                 &nbsp; 
-                                BackGround-Image</span>
+                                BackGround-Image
+                                &nbsp;
+                            </span>
+                            <div @click="goUserInfoUpdatePage" class="setting">
+                                <v-icon size="15px" color="black">mdi-account-cog</v-icon>
+                            </div>
+                            <span>
+                                &nbsp; 
+                                Setting
+                                &nbsp;
+                            </span>
                         </v-layout>
                         <v-layout class="profileIMG">
                             <v-img class="profileIMG" :src="this.LoginUser.profileImage" width="100px" alt=""></v-img>
@@ -139,19 +149,34 @@ export default {
                     .$router
                     .push({path: '/ArticleDetailPage'})
                     .catch(() => {})
+        },
+        goUserInfoUpdatePage(){
+
         }
     }
 }
 </script>
 <style>
     .image-upload{
+        cursor: pointer;
         background-color: #CCCCCC;
         border-radius: 50px;
         height: 25px;
         width: 25px;
         
     }
+    .setting{
+        cursor: pointer;
+        background-color: #CCCCCC;
+        border-radius: 50px;
+        height: 25px;
+        width: 25px;
+    }
+    .setting>i{
+        margin-left: 20%;
+    }
     .image-upload>label {
+        cursor: pointer;
         margin-left: 20%;
         justify-content: center;
         vertical-align: middle;
