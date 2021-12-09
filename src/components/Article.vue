@@ -12,14 +12,15 @@
                 </v-list-item-title>
             </v-layout>
         </v-toolbar>
-        <v-layout justify-center="justify-center">
+        <v-layout>
             <h3>
+                Title: 
                 {{
                     this.article.title
                 }}
             </h3>
         </v-layout>
-        <v-layout justify-center="justify-center" width="30%">
+        <v-layout width="30%">
             <img class="IMG" :src="article.image" alt="">
         </v-layout>
         <v-card-text>

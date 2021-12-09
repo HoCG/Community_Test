@@ -22,14 +22,6 @@
                                 BackGround-Image
                                 &nbsp;
                             </span>
-                            <div @click="goUserInfoUpdatePage" class="setting">
-                                <v-icon size="15px" color="black">mdi-account-cog</v-icon>
-                            </div>
-                            <span>
-                                &nbsp; 
-                                Setting
-                                &nbsp;
-                            </span>
                         </v-layout>
                         <v-layout class="profileIMG">
                             <v-img class="profileIMG" :src="this.LoginUser.profileImage" width="100px" alt=""></v-img>
@@ -149,9 +141,6 @@ export default {
                     .$router
                     .push({path: '/ArticleDetailPage'})
                     .catch(() => {})
-        },
-        goUserInfoUpdatePage(){
-
         }
     }
 }

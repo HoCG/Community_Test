@@ -29,6 +29,9 @@ const routes = [
     }, {
         path: '/AdminOwnPage',
         component: () => import ('./views/AdminOwnPage.vue')
+    }, {
+        path: '/UserInfoUpdatePage',
+        component: () => import ('./views/UserInfoUpdatePage.vue')
     }
 ];
 
