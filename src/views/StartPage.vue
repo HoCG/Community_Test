@@ -24,11 +24,14 @@
                 <v-btn color="info" v-bind="attrs" v-on="on">Next slide</v-btn>
             </template>
             <!--페이지에 대한 안내를 담은 부분. carousel-item을 활용해서 보여지도록 하였다.-->
-            <v-carousel-item v-for="(color, i) in colors" :key="i">
-                <v-sheet :color="color" height="100%">
+            <v-carousel-item v-for="carousel in carouselArr" :key="carousel.id">
+                <v-sheet :color="carousel.color" height="100%">
                     <v-row class="fill-height" align="center" justify="center">
+                        <v-img :src="carousel.imageURL" max-width="400"></v-img>
                         <div class="text-h2">
-                            {{ texts[i] }}
+                            {{
+                                carousel.text
+                            }}
                         </div>
                     </v-row>
                 </v-sheet>
@@ -74,13 +77,27 @@
         },
         data() {
             return {
-                saveArticles: saveArticle_Info.articles,
-                parentVaule: 20,
-                colors: [
-                    'primary', 'secondary', 'yellow darken-2', 'red', 'orange'
+                carouselArr: [
+                    {
+                        id: 0,
+                        color: 'primary',
+                        text: '이제 너를 마음껏 표현해봐',
+                        imageURL: require("../assets/carousel_Image_1.png")
+                    },
+                    {
+                        id: 1,
+                        color: 'secondary',
+                        text: '다른 사람과 자유롭게 소통해봐!',
+                        imageURL: require("../assets/carousel_Image_2.png")
+                    },
+                    {
+                        id: 2,
+                        color: 'yellow darken-2',
+                        text: '지금 너의 상태를 언제든지!',
+                        imageURL: require("../assets/logo.png")
+                    }
                 ],
-                //텍스트 정보를 배열로 가진다.
-                texts: ['이제 너를 마음껏 표현해봐', '다른 사람들과 소통해보자!', 'ㅇ', 'ㅇ', 'ㅇ']
+                saveArticles: saveArticle_Info.articles
             };
         },
         methods: {
@@ -130,6 +147,9 @@
     }
 </script>
 <style>
+    .mainImage {
+        width: 20%;
+    }
     .MainFrame {
         margin-left: 3%;
         margin-right: 3%;
