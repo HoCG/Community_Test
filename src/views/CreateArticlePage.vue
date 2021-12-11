@@ -1,9 +1,7 @@
 <!--글 작성 페이지.-->
 <template>
-    <v-layout max-width="100%" justify-center="justify-center">
-        <v-card-actions class="justify-center" max-width="100%">
-            <v-card justify-center="justify-center" class="CreateArticlePageWidth">
-                <BackToStartPage/>
+    <v-list justify-center="justify-center">
+        <BackToStartPage/>
                 <div class="MainFrame">
                     <v-spacer></v-spacer>
                     <v-layout class="ArticleTitle" justify-center="justify-center">
@@ -26,19 +24,28 @@
                     </v-layout>
                     <v-layout justify-center="justify-center">
                         <v-card-actions justify-center="justify-center">
-                            <v-btn color="primary" v-if="!checkUpdate" @click="AddArticle">글 등록</v-btn>
-                            <v-btn color="primary" v-else-if="checkUpdate" @click="UpdateArticle">글 수정</v-btn>
+                            <v-btn width="500" color="mainColor" v-if="!checkUpdate" @click="AddArticle">
+                                <h3>
+                                    글 등록
+                                </h3>
+                            </v-btn>
+                            <v-btn width="500" color="mainColor" v-else-if="checkUpdate" @click="UpdateArticle">
+                                <h3>
+                                    글 수정
+                                </h3>
+                            </v-btn>
                         </v-card-actions>
                     </v-layout>
                 </div>
-            </v-card>
-        </v-card-actions>
-    </v-layout>
+                <Alert :dialog="true" />
+    </v-list>
 </template>
 <script>
+    import Alert from "../components/AlertForm.vue";
     import BackToStartPage from "../components/BackToStartPage.vue"
     export default {
         components: {
+            Alert,
             BackToStartPage
         },
         mounted(){
@@ -88,16 +95,16 @@
                         .$store
                         .commit("UPDATE_ARTICLE", this.$store.state.articles.currentArticle);
                     this
-                        .$router
-                        .push({path: '/', params: {}})
-                        .catch(() => {})
-                    alert("글 수정이 완료되었어요!");
+                        .$store
+                        .commit("OPEN_ALERT_PAGE_OVER_MODE", "글 수정이 완료되었어요!");
                     this.$store.state.articles.ArticleUpdateMode = false;
                     this
                         .$store
                         .commit("FORMAT_DATA_ARTICLE");
                 } else {
-                    alert("제목을 최소 한글자 이상 작성해주세요.");
+                    this
+                        .$store
+                        .commit("OPEN_ALERT", "제목을 최소 한글자 이상 작성해주세요.");
                 }
             },
             AddArticle() {
@@ -118,15 +125,15 @@
                         .$store
                         .commit("ADD_ARTICLE", this.$store.state.articles.currentArticle);
                     this
-                        .$router
-                        .push({path: '/', params: {}})
-                        .catch(() => {})
-                    alert("글 작성이 완료되었어요!");
+                        .$store
+                        .commit("OPEN_ALERT_PAGE_OVER_MODE", "글 작성이 완료되었어요!");
                     this
                         .$store
                         .commit("FORMAT_DATA_ARTICLE");
                 } else {
-                    alert("제목을 최소 한글자 이상 작성해주세요.");
+                    this
+                        .$store
+                        .commit("OPEN_ALERT", "제목을 최소 한글자 이상 작성해주세요.");
                 }
             }
         }

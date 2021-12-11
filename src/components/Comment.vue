@@ -1,8 +1,8 @@
 <!--작성된 글을 컴포넌츠화 해서 보여주는 페이지.-->
 <template>
-    <v-card justify-center="justify-center" width="100%">
+    <v-card justify-center="justify-center">
         <v-layout>
-            <v-img></v-img>
+            <img class="profileIMG" :src="this.commentUser.profileImage" @click="goAdminOwnPage" alt="">
             <h3>
                 &nbsp;
                 작성자: 
@@ -12,7 +12,6 @@
             </h3>
             <v-spacer></v-spacer>
             <!--바로 삭제가 안되는 문제점... 좀더 고민해보도록 하자.-->
-            <button @click="CommentDelete" class="MyCommentIcon"><v-icon>mdi-close</v-icon></button>
         </v-layout>
         <span class="date">
             {{
@@ -45,11 +44,23 @@
                 }
             }
         },
+        computed: {
+            commentUser(){
+                return this.$store.state.admin.AllUsersInfo.find((A) => A.id === this.comment.userID);
+            }
+        },
         methods: {
             CommentDelete(){
                 let CommentID = this.comment.id;
                 this.$emit("CommentDelete", CommentID)
-            }
+            },
+            goAdminOwnPage(){
+                this.$store.state.admin.TheUser_usedByData = this.writingUser;
+                this
+                    .$router
+                    .push({path: '/AdminOwnPage', params: {}})
+                    .catch(() => {});
+            },
         },
         data(){
             return{
@@ -64,6 +75,11 @@
         width: 24px;
         height: 24px;
         border-radius: 50px;
+    }
+    .profileIMG{
+        width: 15px;
+        height: 15px;
+        border-radius: 50px; /* 이미지 반크기만큼 반경을 잡기*/
     }
     .date {
         float: right;

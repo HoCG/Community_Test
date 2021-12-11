@@ -23,12 +23,15 @@
                 </v-card-actions>
             </v-layout>
         </div>
+        <Alert :dialog="true"/>
     </v-list>
 </template>
 <script>
-    import BackToStartPage from "../components/BackToStartPage.vue"
+    import BackToStartPage from "../components/BackToStartPage.vue";
+    import Alert from "../components/AlertForm.vue";
     export default {
         components: {
+            Alert,
             BackToStartPage
         },
         mounted() {
@@ -44,11 +47,9 @@
                 this
                     .$store
                     .commit("UPDATE_USER_INFO", this.$store.state.admin.currentUser);
-                alert("수정이 완료되었습니다!");
                 this
-                    .$router
-                    .push({path: '/'})
-                    .catch(() => {})
+                    .$store
+                    .commit("OPEN_ALERT_PAGE_OVER_MODE", "정보 수정 성공!");
             }
         }
     }

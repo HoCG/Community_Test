@@ -91,6 +91,7 @@
                 </div>
             </v-card>
         </v-card-actions>
+        <Alert :alert="true"/>
     </v-layout>
 </template>
 <script>
@@ -160,7 +161,7 @@
                         HeartBtn.style.color = "grey";
                     }
                 } else {
-                    alert("로그인 후에 이용해주세요!");
+                    this.$store.commit("OPEN_ALERT", "로그인 후에 이용해주세요!");
                 }
             },
             ShowCommentMode() {

@@ -1,42 +1,61 @@
 <!--로그인 페이지-->
 <template>
     <v-list justify-center="justify-center">
-        <v-toolbar justify-center="justify-center" dark="dark" color="mainColor">
-            <v-toolbar-title class="fontSetting">로그인 해주세요.</v-toolbar-title>
+        <v-toolbar
+            class="LoginToolbar"
+            justify-center="justify-center"
+            dark="dark"
+            color="mainColor">
+            <v-spacer></v-spacer>
+            <h2 class="fontSetting">
+                로그인 해주세요.
+            </h2>
+            <v-spacer></v-spacer>
         </v-toolbar>
-        <v-card-text>
+        <v-layout justify-center="justify-center">
+            <v-spacer></v-spacer>
             <v-form>
-                <v-text-field
-                    prepend-icon="mdi-account"
-                    name="login"
-                    label="Login"
-                    type="text"
-                    v-model="admin.id"></v-text-field>
-                <v-text-field
-                    prepend-icon="mdi-lock"
-                    id="password"
-                    name="password"
-                    label="Password"
-                    v-model="admin.password"
-                    type="password"></v-text-field>
+                <div class="LoginTextForm">
+                    <v-text-field
+                        prepend-icon="mdi-account"
+                        name="login"
+                        label="Login"
+                        type="text"
+                        v-model="admin.id"></v-text-field>
+                    <v-text-field
+                        prepend-icon="mdi-lock"
+                        id="password"
+                        name="password"
+                        label="Password"
+                        v-model="admin.password"
+                        type="password"></v-text-field>
+                </div>
             </v-form>
-        </v-card-text>
+            <v-spacer></v-spacer>
+        </v-layout>
         <v-layout justify-center="justify-center">
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="mainColor" @click="findAdmin">로그인</v-btn>
+                <v-btn color="mainColor" @click="findAdmin">
+                   <h3 lass="BtnTextSetting">로그인</h3></v-btn>
                 <v-btn color="mainColor">
                     <router-link to="/CreateAdminPage" class="link">
-                        <span class="fontSetting">회원가입</span>
+                        <h3 class="fontSetting">회원가입</h3>
                     </router-link>
                 </v-btn>
-                <v-btn color="mainColor" @click="backStartPage">뒤로가기</v-btn>
+                <v-btn color="mainColor" @click="backStartPage">
+                    <h3 class="BtnTextSetting">
+                        뒤로가기
+                    </h3>
+                </v-btn>
             </v-card-actions>
         </v-layout>
+        <Alert :dialog="true" />
     </v-list>
 </template>
 
 <script>
+    import Alert from "../components/AlertForm.vue";
     export default {
         mounted() {
             //for Test
@@ -61,6 +80,9 @@
                     .commit("ADD_NEW_USER", this.$store.state.admin.currentUser);
             }
         },
+        components:{
+            Alert
+        },
         computed: {
             admin() {
                 return this.$store.state.admin.currentUser;
@@ -78,15 +100,14 @@
                     this
                         .$store
                         .commit('CURRENT_USER_SETTING', this.admin);
-                    alert("로그인 성공!")
                     this
-                        .$router
-                        .push({path: '/', params: {}})
-                        .catch(() => {})
+                        .$store
+                        .commit("OPEN_ALERT_PAGE_OVER_MODE", "로그인 성공!");
                     } else if (this.$store.state.admin.ID_or_PasswordError) {
-                    alert("비밀번호가 틀렸습니다. 다시 입력해주세요.");
+                    this.$store.commit("OPEN_ALERT", "비밀번호가 틀렸습니다. 다시 입력해주세요.");
                 } else {
-                    alert("아이디 또는 비밀번호가 틀렸습니다. 다시 입력해주세요.")
+                    this.$store.commit("OPEN_ALERT", "아이디 또는 비밀번호가 틀렸습니다. 다시 입력해주세요.");
+                    //alert("아이디 또는 비밀번호가 틀렸습니다. 다시 입력해주세요.")
                 }
             },
             backStartPage() {
@@ -98,8 +119,19 @@
     };
 </script>
 <style>
+    .BtnTextSetting {
+        border: 900;
+    }
+    .LoginTextForm {
+        margin-top: 5%;
+        width: 700px;
+    }
+    .LoginToolbar {
+        text-align: center !important;
+    }
     .fontSetting {
         color: black;
+        border: 900;
     }
     .LoginForm {
         width: 500px;
