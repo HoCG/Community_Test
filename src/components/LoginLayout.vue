@@ -7,17 +7,16 @@
                     {{
                         this.admin.id
                     }}</span>
-                <v-icon color="black">mdi-account</v-icon>
             </v-btn>
             <v-btn target="_blank" text="text" @click="goUserInfoUpdatePage()">
+                <v-icon color="black">mdi-account-cog</v-icon>
                 <span class="mr-2 blackColorVer">
                     SETTING
                 </span>
-                <v-icon color="black">mdi-account-cog</v-icon>
             </v-btn>
             <v-btn @click="Logout()" target="_blank" text="text">
-                <span class="mr-2 blackColorVer">Logout</span>
                 <v-icon color="black">mdi-logout</v-icon>
+                <span class="mr-2 blackColorVer">Logout</span>
             </v-btn>
         </div>
         <v-btn
