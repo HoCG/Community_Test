@@ -6,10 +6,10 @@
                 <v-spacer></v-spacer>
                 <BackToStartPage/>
                 <br>
-                <v-img :src="this.LoginUser.backgroundImage" alt="" width="100%" height="600px">
+                <v-img :src="this.UserInfo.backgroundImage" alt="" width="100%" height="600px">
                     <br>
                     <div class="MainFrame">
-                        <v-layout>
+                        <v-layout v-if="CheckLoginMode">
                             <v-spacer></v-spacer>
                             <div class="image-upload">
                                 <label for="background-input">
@@ -24,9 +24,9 @@
                             </span>
                         </v-layout>
                         <v-layout class="profileIMG">
-                            <v-img class="profileIMG" :src="this.LoginUser.profileImage" width="100px" alt=""></v-img>
+                            <v-img class="profileIMG" :src="this.UserInfo.profileImage" width="100px" alt=""></v-img>
                         </v-layout>
-                        <v-layout>
+                        <v-layout v-if="CheckLoginMode">
                             <div class="image-upload">
                                 <label for="profile-input">
                                     <v-icon size="15px" color="black">mdi-camera</v-icon>
@@ -41,7 +41,7 @@
                             <h2 width="100%">
                                 유저아이디:
                                 {{
-                                    this.LoginUser.id
+                                    this.UserInfo.id
                                 }}  
                             </h2>
                         </v-layout>
@@ -50,7 +50,7 @@
                             <h2 width="100%">
                                 유저이름:
                                 {{
-                                    this.LoginUser.userName
+                                    this.UserInfo.userName
                                 }}
                             </h2>
                         </v-layout>
@@ -59,7 +59,7 @@
                             <h2 width="100%">
                                 생일:
                                 {{
-                                    this.LoginUser.userBirthDay
+                                    this.UserInfo.userBirthDay
                                 }}
                             </h2>
                         </v-layout>
@@ -68,7 +68,7 @@
                             <h2 width="100%">
                                 가입일:
                                 {{
-                                    this.LoginUser.startDay
+                                    this.UserInfo.startDay
                                 }}
                             </h2>
                         </v-layout>
@@ -87,52 +87,63 @@
     </v-layout>
 </template>
 <script>
-import BackToStartPage from "../components/BackToStartPage.vue"
-import MyArticle from "../components/MyArticle.vue";
-export default {
-    data() {
-        return {
-            profileIMG : '',
-            backgroundIMG: ''
-        };
-    },
-    mounted() {
-        this
-            .$store
-            .commit("FIND_MY_ALL_ARTICLES", this.$store.state.admin.currentUser.id)
-    },
-    components: {
-        BackToStartPage,
-        MyArticle
-    },
-    computed: {
-        DataProcessAllArticles() {
-            return this.$store.state.articles.DataProcessAllArticles
+    import BackToStartPage from "../components/BackToStartPage.vue"
+    import MyArticle from "../components/MyArticle.vue";
+    export default {
+        data() {
+            return {
+                profileIMG: '', 
+                backgroundIMG: '', 
+                CheckLoginMode: false
+            };
         },
-        LoginUser() {
-            return this.$store.state.admin.currentUser;
-        }
-    },
-    methods: {
-        uploadProfileIMG() {
-            let image = this.$refs['profileIMG'].files[0];
-            const url = URL.createObjectURL(image);
-            this.profileIMG = url
-            this.$store.state.admin.currentUser.profileImage = this.profileIMG;
+        mounted() {
             this
                 .$store
-                .commit("UPDATE_USER_INFO", this.$store.state.admin.currentUser);
+                .commit("FIND_MY_ALL_ARTICLES", this.$store.state.admin.TheUser_usedByData.id);
+            if(this.$store.state.admin.currentUser.id === this.$store.state.admin.TheUser_usedByData.id){
+                this.CheckLoginMode = true;
+            }
+            else{
+                this.CheckLoginMode = false;
+            }
         },
-        uploadBackgroundIMG() {
-            let image = this.$refs['backgroundIMG'].files[0];
-            const url = URL.createObjectURL(image);
-            this.backgroundIMG = url
-            this.$store.state.admin.currentUser.backgroundImage = this.backgroundIMG;
-            this
-                .$store
-                .commit("UPDATE_USER_INFO", this.$store.state.admin.currentUser);
+        components: {
+            BackToStartPage,
+            MyArticle
         },
-         goThisArticlePage(ArticleID) {
+        computed: {
+            DataProcessAllArticles() {
+                return this.$store.state.articles.DataProcessAllArticles
+            },
+            UserInfo() {
+                return this.$store.state.admin.TheUser_usedByData;
+            }
+        },
+        methods: {
+            uploadProfileIMG() {
+                let image = this
+                    .$refs['profileIMG']
+                    .files[0];
+                const url = URL.createObjectURL(image);
+                this.profileIMG = url
+                this.$store.state.admin.TheUser_usedByData.profileImage = this.profileIMG;
+                this
+                    .$store
+                    .commit("UPDATE_USER_INFO", this.$store.state.admin.TheUser_usedByData);
+            },
+            uploadBackgroundIMG() {
+                let image = this
+                    .$refs['backgroundIMG']
+                    .files[0];
+                const url = URL.createObjectURL(image);
+                this.backgroundIMG = url
+                this.$store.state.admin.TheUser_usedByData.backgroundImage = this.backgroundIMG;
+                this
+                    .$store
+                    .commit("UPDATE_USER_INFO", this.$store.state.admin.TheUser_usedByData);
+            },
+            goThisArticlePage(ArticleID) {
                 //ID전달을 쿼리가 아닌, vuex로 처리하는거지.
                 this
                     .$store
@@ -140,10 +151,10 @@ export default {
                 this
                     .$router
                     .push({path: '/ArticleDetailPage'})
-                    .catch(() => {})
+                    .catch(() => {});
+                }
         }
     }
-}
 </script>
 <style>
     .image-upload{

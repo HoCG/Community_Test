@@ -100,6 +100,7 @@
                         let day = ('0' + today.getDate()).slice(-2);
                         let dateString = year + '-' + month  + '-' + day;
                         this.admin.startDay = dateString;
+                        this.admin.profileImage = require("../assets/Initial_account.png");
                         //가입일까지 추가시키자.
                         this
                             .$store
@@ -111,7 +112,7 @@
                     }
                 }
                 else{
-                    alert("비밀번호와 비밀번호확인이 일치하지않습니다. 다시 작성해주세요")
+                    alert("비밀번호와 비밀번호확인이 일치하지않습니다. 다시 작성해주세요");
                 }
             },
             backStartPage() {

@@ -37,7 +37,8 @@
                         <v-img class="profileIMG" :src="this.writingUser.profileImage" @click="goAdminOwnPage" alt="" width="30px" height="30px"></v-img>
                         <v-list-item-title>작성자: {{
                                 this.article.userID
-                            }}</v-list-item-title>
+                            }}
+                        </v-list-item-title>
                     </v-layout>
                     <br>
                     <br>
@@ -69,7 +70,8 @@
                         <v-icon id="HeartBtn" @click="LikeClick">mdi-heart</v-icon>
                         <span > 좋아요 {{
                                 this.article.HeartCount
-                            }}&nbsp;</span>
+                            }}&nbsp;
+                        </span>
                         <v-icon color="grey" @click="ShowCommentMode">mdi-comment</v-icon>
                         <v-spacer></v-spacer>
                     </v-layout>
@@ -112,8 +114,7 @@
             }
             if(this.$store.state.admin.currentUser.id === this.$store.state.articles.currentArticle.userID){
                 this.MyArticleCheck = true;
-            }
-            else{
+            } else{
                 this.MyArticleCheck = false;
             }
         },
@@ -187,7 +188,11 @@
                     .commit("ADD_COMMENT", this.$store.state.comments.Comment);
             },
             goAdminOwnPage(){
-
+                this.$store.state.admin.TheUser_usedByData = this.writingUser;
+                this
+                    .$router
+                    .push({path: '/AdminOwnPage', params: {}})
+                    .catch(() => {});
             },
             UpdateArticle(){
                 this.$store.state.articles.ArticleUpdateMode = true;

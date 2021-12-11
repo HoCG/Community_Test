@@ -46,7 +46,11 @@
         },
         methods: {
             goAdminOwnPage(){
-
+                this.$store.state.admin.TheUser_usedByData = this.writingUser;
+                this
+                    .$router
+                    .push({path: '/AdminOwnPage', params: {}})
+                    .catch(() => {});
             },
         },
         data(){

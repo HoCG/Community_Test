@@ -46,12 +46,12 @@
                 }
             },
             goMyPage() {
+                this.$store.state.admin.TheUser_usedByData = this.$store.state.admin.currentUser;
                 this
                     .$router
                     .push({path: '/AdminOwnPage', params: {}})
                     .catch(() => {})
                 },
-
             goLoginPage() {
                 this
                     .$router
