@@ -37,10 +37,15 @@
             <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn color="mainColor" @click="findAdmin">
-                   <h3 lass="BtnTextSetting">로그인</h3></v-btn>
+                   <h3 lass="BtnTextSetting">
+                       로그인
+                    </h3>
+                </v-btn>
                 <v-btn color="mainColor">
                     <router-link to="/CreateAdminPage" class="link">
-                        <h3 class="fontSetting">회원가입</h3>
+                        <h3 class="fontSetting">
+                            회원가입
+                        </h3>
                     </router-link>
                 </v-btn>
                 <v-btn color="mainColor" @click="backStartPage">
@@ -107,7 +112,6 @@
                     this.$store.commit("OPEN_ALERT", "비밀번호가 틀렸습니다. 다시 입력해주세요.");
                 } else {
                     this.$store.commit("OPEN_ALERT", "아이디 또는 비밀번호가 틀렸습니다. 다시 입력해주세요.");
-                    //alert("아이디 또는 비밀번호가 틀렸습니다. 다시 입력해주세요.")
                 }
             },
             backStartPage() {
