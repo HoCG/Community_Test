@@ -46,6 +46,7 @@
                 this.$store.state.admin.currentUser.userName = "관리자"
                 this.$store.state.admin.currentUser.userBirthDay = "2020-12-12"
                 this.$store.state.admin.currentUser.startDay = "0000-00-00"
+                this.$store.state.admin.currentUser.profileImage = require("../assets/Initial_account.png");
                 this
                     .$store
                     .commit("ADD_NEW_USER", this.$store.state.admin.currentUser);
@@ -54,6 +55,7 @@
                 this.$store.state.admin.currentUser.userName = "관리자2"
                 this.$store.state.admin.currentUser.userBirthDay = "2020-12-12"
                 this.$store.state.admin.currentUser.startDay = "0000-00-00"
+                this.$store.state.admin.currentUser.profileImage = require("../assets/Initial_account.png");
                 this
                     .$store
                     .commit("ADD_NEW_USER", this.$store.state.admin.currentUser);
