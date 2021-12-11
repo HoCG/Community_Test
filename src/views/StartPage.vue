@@ -38,9 +38,28 @@
             </v-carousel-item>
         </v-carousel>
         <v-layout max-width="100%" justify-center="justify-center">
+            <v-spacer></v-spacer>
             <v-icon color="yellow">mdi-star</v-icon>
             <h3>다른 사람이 작성한 글들</h3>
             <v-icon color="yellow">mdi-star</v-icon>
+            <v-spacer></v-spacer>
+        </v-layout>
+        <v-layout max-width="100%" justify-center="justify-center">
+            <div class="searchDiv">
+                <div class="searchBar">
+                    <v-text-field 
+                        label="검색할 내용"
+                        type="text"
+                        v-model="searchInfo"></v-text-field>
+                </div>
+                <div class="searchBtn">
+                    <v-btn @click="searchArticle">
+                        <v-icon color="black">
+                            mdi-magnify
+                        </v-icon>
+                    </v-btn>
+                </div>
+            </div>
         </v-layout>
         <v-card-actions class="justify-center" max-width="100%">
             <Article
@@ -77,6 +96,7 @@
         },
         data() {
             return {
+                searchInfo: '',
                 carouselArr: [
                     {
                         id: 0,
@@ -142,11 +162,23 @@
                     .$router
                     .push({path: '/ArticleDetailPage'})
                     .catch(() => {})
-                }
+            },
+            searchArticle(){
+            }
         }
     }
 </script>
 <style>
+    .searchDiv{
+        float: left;
+    }
+    .searchBar{
+        width: 300px;
+        display: inline-block;
+    }
+    .searchBtn{
+        display: inline-block;
+    }
     .mainImage {
         width: 20%;
     }

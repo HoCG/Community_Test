@@ -37,7 +37,6 @@ const mutations = {
             .push(getUser);
         //state.eventAddDialogUpdateMode = false
         //state.eventAddDialog = false;
-        state.TheUser_usedByData = initUser();
     },
     FIND_USER(state, getUser){
         getUser = makeUser(getUser);
