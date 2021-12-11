@@ -13,7 +13,7 @@
             </v-layout>
         </v-toolbar>
         <v-layout>
-            <h3>
+            <h3>&nbsp;&nbsp;
                 Title: 
                 {{
                     this.article.title

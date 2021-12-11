@@ -2,8 +2,9 @@
     <v-row justify="center">
         <v-dialog width="400" persistent v-model="alert">
             <v-card>
+                <v-spacer></v-spacer>
                 <div class="ml-5 font-weight-light">
-                    <span>
+                    <span class="alertMargin">
                         {{
                             this.$store.state.alert.alertText
                         }}
@@ -33,6 +34,7 @@
             close() {
                 this.$store.state.alert.alertShow = false;
                 if(this.$store.state.alert.pageOverMode === true){
+                    this.$store.state.alert.pageOverMode = false;
                     this
                         .$router
                         .push({path: '/', params: {}})
@@ -42,6 +44,8 @@
         }
     }
 </script>
-
-<style scoped>
+<style>
+    .alertMargin{
+        margin-top: 5%;
+    }
 </style>

@@ -6,7 +6,8 @@
             <!--정렬방법 찾아냄!!! https://electronic-moongchi.tistory.com/21-->
             <v-btn @click="goCreateArticlePage()">
                 <v-icon color="black">
-                    mdi-pencil</v-icon>
+                    mdi-pencil
+                </v-icon>
             </v-btn>
         </v-layout>
         <h1>
