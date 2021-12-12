@@ -2,27 +2,21 @@
     "articles": [
         {
             "id": 0,
-            "userID": "ghtp9705",
-            "title": "나는야 황호세",
-            "startDate": "",
-            "startTime": "",
-            "article": "골목 대장이라네"
+            "userID": "hostid",
+            "title": "내가만든 자리바꾸기 컨텐츠야",
+            "content": "멋지지"
         },
         {
             "id": 1,
-            "userID": "ghtp9705",
-            "title": "나는야 박상철",
-            "startDate": "",
-            "startTime": "",
-            "article": "골목 대장이라네"
+            "userID": "hostid",
+            "title": "내가 만든 캘린더야",
+            "content": "멋지지"
         },
         {
             "id": 2,
-            "userID": "ghtp9705",
-            "title": "나는야 김장수",
-            "startDate": "",
-            "startTime": "",
-            "article": "골목 대장이라네"
+            "userID": "hostid",
+            "title": "오늘도 칸예타임",
+            "content": "예예~"
         }
     ]
 }

@@ -90,13 +90,14 @@
                         v-bind:childVaule="comment.id"/>
                 </div>
             </v-card>
+            <Alert :alert="true"/>
         </v-card-actions>
-        <Alert :alert="true"/>
     </v-layout>
 </template>
 <script>
     import BackToStartPage from "../components/BackToStartPage.vue";
     import Comment from "../components/Comment.vue";
+    import Alert from "../components/AlertForm.vue"
     export default {
         mounted() {
             this
@@ -140,6 +141,7 @@
             }
         },
         components: {
+            Alert,
             Comment,
             BackToStartPage
         },
@@ -171,22 +173,27 @@
                 this.CommentMode = !this.CommentMode;
             },
             AddComment() {
-                let today = new Date();
-                let year = today.getFullYear();
-                let month = ('0' + (today.getMonth() + 1)).slice(-2);
-                let day = ('0' + today.getDate()).slice(-2);
-                let dateString = year + '-' + month + '-' + day;
-                let hours = ('0' + today.getHours()).slice(-2);
-                let minutes = ('0' + today.getMinutes()).slice(-2);
-                let seconds = ('0' + today.getSeconds()).slice(-2);
-                let timeString = hours + ':' + minutes + ':' + seconds;
-                this.$store.state.comments.Comment.startDate = dateString;
-                this.$store.state.comments.Comment.startTime = timeString;
-                this.$store.state.comments.Comment.userID = this.$store.state.admin.currentUser.id;
-                this.$store.state.comments.Comment.articleID = this.$store.state.articles.currentArticle.id;
-                this
-                    .$store
-                    .commit("ADD_COMMENT", this.$store.state.comments.Comment);
+                if(this.$store.state.admin.LoginMode){
+                    let today = new Date();
+                    let year = today.getFullYear();
+                    let month = ('0' + (today.getMonth() + 1)).slice(-2);
+                    let day = ('0' + today.getDate()).slice(-2);
+                    let dateString = year + '-' + month + '-' + day;
+                    let hours = ('0' + today.getHours()).slice(-2);
+                    let minutes = ('0' + today.getMinutes()).slice(-2);
+                    let seconds = ('0' + today.getSeconds()).slice(-2);
+                    let timeString = hours + ':' + minutes + ':' + seconds;
+                    this.$store.state.comments.Comment.startDate = dateString;
+                    this.$store.state.comments.Comment.startTime = timeString;
+                    this.$store.state.comments.Comment.userID = this.$store.state.admin.currentUser.id;
+                    this.$store.state.comments.Comment.articleID = this.$store.state.articles.currentArticle.id;
+                    this
+                        .$store
+                        .commit("ADD_COMMENT", this.$store.state.comments.Comment);
+                }
+                else{
+                    this.$store.commit("OPEN_ALERT", "로그인 후에 이용해주세요!");
+                }
             },
             goAdminOwnPage(){
                 this.$store.state.admin.TheUser_usedByData = this.writingUser;

@@ -49,23 +49,20 @@
             <div class="searchDiv">
                 <div class="searchBar">
                     <v-text-field 
+                        @input="searchArticle"
                         label="검색할 내용"
                         type="text"
                         v-model="searchInfo"></v-text-field>
                 </div>
-                <div class="searchBtn">
-                    <v-btn @click="searchArticle">
-                        <v-icon color="black">
-                            mdi-magnify
-                        </v-icon>
-                    </v-btn>
-                </div>
+                <v-icon color="black">
+                        mdi-magnify
+                </v-icon>
             </div>
         </v-layout>
         <v-card-actions class="justify-center" max-width="100%">
             <Article
                 class="ArticleMargin"
-                v-for="Article in DataProcessAllarticles"
+                v-for="Article in this.DataProcessAllarticles"
                 :key="Article.id"
                 v-bind:childVaule="Article.id"
                 @click.native="goThisArticlePage(Article.id)"/>
@@ -83,21 +80,35 @@
     import Article from "../components/Article.vue";
     export default {
         mounted() {
+            //for Test
+            if (!this.$store.state.admin.AllUsersInfo.map(u => u.id).includes("hostid")) {
+                this.pushUserData();
+            }
+            if (!this.$store.state.articles.AllArticles.map(u => u.id).includes(0)){
+                this.pushArticleData();
+            }
             this
                 .$store
                 .commit("MAKE_RANDOM_ARTICLES");
-        },
-        computed: {
-            DataProcessAllarticles() {
-                return this.$store.state.articles.AllArticles
-            }
         },
         components: {
             Article
         },
         data() {
             return {
+                DataProcessAllarticles: this.$store.state.articles.AllArticles,
                 searchInfo: '',
+                ArticleImageArr: [
+                    {
+                        image: require("../assets/default_Images/자리바꾸기.jpg")
+                    },{
+                        image: require("../assets/default_Images/캘린더.jpg")
+                    },{
+                        image: require("../assets/default_Images/Kanye.jpg")
+                    },{
+                        image: require("../assets/default_Images/Kanye.jpg")
+                    }
+                ],
                 carouselArr: [
                     {
                         id: 0,
@@ -139,17 +150,50 @@
                         .catch(() => {})
                     }
             },
-            pushData() {
+            pushArticleData() {
+                let ImageCount = 0;
                 for (let Article of this.saveArticles) {
                     this.$store.state.articles.currentArticle.id = parseInt(Article.id);
                     this.$store.state.articles.currentArticle.userID = String(Article.userID);
                     this.$store.state.articles.currentArticle.title = String(Article.title);
                     this.$store.state.articles.currentArticle.content = String(Article.content);
-                    //console.log(this.$store.state.articles.currentArticle);
+                    this.$store.state.articles.currentArticle.image = this.ArticleImageArr[ImageCount].image;
+                    let today = new Date();   
+                    let hours = ('0' + today.getHours()).slice(-2); 
+                    let minutes = ('0' + today.getMinutes()).slice(-2);
+                    let seconds = ('0' + today.getSeconds()).slice(-2); 
+                    let timeString = hours + ':' + minutes  + ':' + seconds;
+                    let year = today.getFullYear();
+                    let month = ('0' + (today.getMonth() + 1)).slice(-2);
+                    let day = ('0' + today.getDate()).slice(-2);
+                    let dateString = year + '-' + month  + '-' + day;
+                    this.$store.state.articles.currentArticle.startDate = dateString;
+                    this.$store.state.articles.currentArticle.startTime = timeString;
                     this
                         .$store
                         .commit("ADD_ARTICLE", this.$store.state.articles.currentArticle);
+                    ImageCount++;
                 }
+            },
+            pushUserData(){
+                this.$store.state.admin.currentUser.id = "hostid"
+                this.$store.state.admin.currentUser.password = "1234"
+                this.$store.state.admin.currentUser.userName = "관리자"
+                this.$store.state.admin.currentUser.userBirthDay = "2020-12-12"
+                this.$store.state.admin.currentUser.startDay = "0000-00-00"
+                this.$store.state.admin.currentUser.profileImage = require("../assets/Initial_account.png");
+                this
+                    .$store
+                    .commit("ADD_NEW_USER", this.$store.state.admin.currentUser);
+                this.$store.state.admin.currentUser.id = "hostid2"
+                this.$store.state.admin.currentUser.password = "1234"
+                this.$store.state.admin.currentUser.userName = "관리자2"
+                this.$store.state.admin.currentUser.userBirthDay = "2020-12-12"
+                this.$store.state.admin.currentUser.startDay = "0000-00-00"
+                this.$store.state.admin.currentUser.profileImage = require("../assets/Initial_account.png");
+                this
+                    .$store
+                    .commit("ADD_NEW_USER", this.$store.state.admin.currentUser);
             },
             goThisArticlePage(ArticleID) {
                 //ID전달을 쿼리가 아닌, vuex로 처리하는거지.
@@ -165,6 +209,18 @@
                     .catch(() => {})
             },
             searchArticle(){
+                this.DataProcessAllarticles = [];
+                for(let Article of this.$store.state.articles.AllArticles){
+                    if(Article.title.includes(this.searchInfo)){
+                        this.DataProcessAllarticles.push(Article);
+                    }
+                    else if(Article.content.includes(this.searchInfo)){
+                        this.DataProcessAllarticles.push(Article);
+                    }
+                }
+                if(this.searchInfo.length === 0){
+                    this.DataProcessAllarticles = this.$store.state.articles.AllArticles
+                }
             }
         }
     }

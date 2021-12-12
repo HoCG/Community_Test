@@ -2,7 +2,7 @@
 <template>
     <v-card justify-center="justify-center">
         <v-layout>
-            <img class="profileIMG" :src="this.commentUser.profileImage" @click="goAdminOwnPage" alt="">
+            <img class="profileIMGofComment" :src="this.commentUser.profileImage" @click="goAdminOwnPage" alt="">
             <h3>
                 &nbsp;
                 작성자: 
@@ -76,9 +76,9 @@
         height: 24px;
         border-radius: 50px;
     }
-    .profileIMG{
-        width: 15px;
-        height: 15px;
+    .profileIMGofComment{
+        width: 30px;
+        height: 30px;
         border-radius: 50px; /* 이미지 반크기만큼 반경을 잡기*/
     }
     .date {
