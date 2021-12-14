@@ -74,14 +74,20 @@
                         </v-layout>
                     </div>
                     </v-img>
-                <v-card-actions class="justify-center" max-width="100%">
+                <v-container>
+                    <v-row
+                        v-for="n in 1"
+                        :key="n"
+                        :class="n === 1 ? 'mb-6' : ''"
+                        no-gutters="no-gutters">
                         <MyArticle
                             class="ArticleMargin"
                             v-for="article in DataProcessAllArticles"
                             :key="article.id"
                             v-bind:childVaule="article.id"
                             @click.native="goThisArticlePage(article.id)"/>
-                </v-card-actions>
+                    </v-row>
+                </v-container>
             </v-card>
         </v-card-actions>
     </v-layout>
@@ -157,6 +163,13 @@
     }
 </script>
 <style>
+    .ArticleMargin {
+        width: 47% !important;
+        cursor: pointer;
+        margin-left: 1.5%;
+        margin-right: 1.5%;
+        margin-bottom: 0.5%;
+    }
     .image-upload{
         cursor: pointer;
         background-color: #CCCCCC;

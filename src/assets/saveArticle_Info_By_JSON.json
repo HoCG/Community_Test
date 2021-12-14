@@ -17,6 +17,18 @@
             "userID": "hostid",
             "title": "오늘도 칸예타임",
             "content": "예예~"
+        },
+        {
+            "id": 3,
+            "userID": "hostid",
+            "title": "칸예타임",
+            "content": "예예~"
+        },
+        {
+            "id": 4,
+            "userID": "hostid",
+            "title": "칸예타임",
+            "content": "예예~"
         }
     ]
 }

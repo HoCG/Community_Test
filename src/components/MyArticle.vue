@@ -1,11 +1,13 @@
 <template>
     <v-card justify-center="justify-center" width="50%">
         <v-layout justify-center="justify-center">
-            <h3>
+            <h3 width="100%">
                 {{
                     article.title
                 }}
             </h3>
+        </v-layout>
+        <v-layout justify-center="justify-center">
             <v-card-text>
                 {{
                     article.content

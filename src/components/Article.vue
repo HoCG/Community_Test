@@ -1,6 +1,6 @@
 <!--작성된 글을 컴포넌츠화 해서 보여주는 페이지.-->
 <template>
-    <v-card justify-center="justify-center"  width="50%">
+    <v-card class="ArticleClass" justify-center="justify-center">
         <v-toolbar color="mainColor">
             <v-layout>
                 <v-img class="profileIMG" :src="this.writingUser.profileImage" @click="goAdminOwnPage" alt="" width="30px" height="30px"></v-img>
@@ -62,6 +62,9 @@
     }
 </script>
 <style>
+    .ArticleClass{
+        max-width: 50% !important;
+    }
     .profileIMG{
         border-radius: 50px; /* 이미지 반크기만큼 반경을 잡기*/
     }

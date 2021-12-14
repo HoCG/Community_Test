@@ -10,8 +10,7 @@
                 </v-icon>
             </v-btn>
         </v-layout>
-        <h1>
-            Welcome HoCGtagram
+        <h1 id="textTitleEffect">
         </h1>
         <v-carousel
             class="carouselStyle"
@@ -48,30 +47,36 @@
         <v-layout max-width="100%" justify-center="justify-center">
             <div class="searchDiv">
                 <div class="searchBar">
-                    <v-text-field 
+                    <v-text-field
                         @input="searchArticle"
                         label="검색할 내용"
                         type="text"
                         v-model="searchInfo"></v-text-field>
                 </div>
                 <v-icon color="black">
-                        mdi-magnify
+                    mdi-magnify
                 </v-icon>
             </div>
         </v-layout>
-        <v-card-actions class="justify-center" max-width="100%">
-            <Article
-                class="ArticleMargin"
-                v-for="Article in this.DataProcessAllarticles"
-                :key="Article.id"
-                v-bind:childVaule="Article.id"
-                @click.native="goThisArticlePage(Article.id)"/>
-            <!--이 컨텐트를 클릭했을때 Article만 따로 보이는 페이지로 넘어가도록 설정해야함. 대신 그때에는 Article 고유의 id를 하나만
-            넘기던가 해서 페이지를 열게끔.-->
-            <!--parentVaule값으로 Article고유 id값을 전달해보는건 어떨까...?-->
-            <!--여기에 v-for로 랜덤으로 저장되어있는 값들중 무작위로 가져와서 글을 보여주도록 한다. 아니면 최근올린 글 순으로 하던지...
-            https://developerjournal.tistory.com/4 << 이 페이지 참조바람.-->
-        </v-card-actions>
+        <v-container>
+            <v-row
+                v-for="n in 1"
+                :key="n"
+                :class="n === 1 ? 'mb-6' : ''"
+                no-gutters="no-gutters">
+                <Article
+                    class="ArticleMargin"
+                    v-for="Article in DataProcessAllarticles"
+                    :key="Article.id"
+                    v-bind:childVaule="Article.id"
+                    @click.native="goThisArticlePage(Article.id)"/>
+            </v-row>
+        </v-container>
+        <!--이 컨텐트를 클릭했을때 Article만 따로 보이는 페이지로 넘어가도록 설정해야함. 대신 그때에는 Article 고유의 id를 하나만
+        넘기던가 해서 페이지를 열게끔.-->
+        <!--parentVaule값으로 Article고유 id값을 전달해보는건 어떨까...?-->
+        <!--여기에 v-for로 랜덤으로 저장되어있는 값들중 무작위로 가져와서 글을 보여주도록 한다. 아니면 최근올린 글 순으로 하던지...
+        https://developerjournal.tistory.com/4 << 이 페이지 참조바람.-->
     </v-list>
 </template>
 <script>
@@ -84,28 +89,32 @@
             if (!this.$store.state.admin.AllUsersInfo.map(u => u.id).includes("hostid")) {
                 this.pushUserData();
             }
-            if (!this.$store.state.articles.AllArticles.map(u => u.id).includes(0)){
+            if (!this.$store.state.articles.AllArticles.map(u => u.id).includes(0)) {
                 this.pushArticleData();
             }
             this
                 .$store
                 .commit("MAKE_RANDOM_ARTICLES");
+            setInterval(this.typing, 200);
         },
         components: {
             Article
         },
         data() {
             return {
+                TextCounter: 0,
                 DataProcessAllarticles: this.$store.state.articles.AllArticles,
                 searchInfo: '',
                 ArticleImageArr: [
                     {
                         image: require("../assets/default_Images/자리바꾸기.jpg")
-                    },{
+                    }, {
                         image: require("../assets/default_Images/캘린더.jpg")
-                    },{
+                    }, {
                         image: require("../assets/default_Images/Kanye.jpg")
-                    },{
+                    }, {
+                        image: require("../assets/default_Images/Kanye.jpg")
+                    }, {
                         image: require("../assets/default_Images/Kanye.jpg")
                     }
                 ],
@@ -115,14 +124,12 @@
                         color: 'primary',
                         text: '이제 너를 마음껏 표현해봐',
                         imageURL: require("../assets/carousel_Image_1.png")
-                    },
-                    {
+                    }, {
                         id: 1,
                         color: 'secondary',
                         text: '다른 사람과 자유롭게 소통해봐!',
                         imageURL: require("../assets/carousel_Image_2.png")
-                    },
-                    {
+                    }, {
                         id: 2,
                         color: 'yellow darken-2',
                         text: '지금 너의 상태를 언제든지!',
@@ -133,6 +140,15 @@
             };
         },
         methods: {
+            typing(){
+                const content = "Welcome HoCGtagram.";
+                const text = document.getElementById("textTitleEffect");
+                if (this.TextCounter < content.length) {
+                    let txt = content.charAt(this.TextCounter);
+                    text.innerHTML += txt;
+                    this.TextCounter++;
+                }
+            },
             goCreateArticlePage() {
                 //로그인이 됐나 안됐나 확인할 필요가 전무함.
                 if (this.$store.state.admin.LoginMode) {
@@ -157,16 +173,20 @@
                     this.$store.state.articles.currentArticle.userID = String(Article.userID);
                     this.$store.state.articles.currentArticle.title = String(Article.title);
                     this.$store.state.articles.currentArticle.content = String(Article.content);
-                    this.$store.state.articles.currentArticle.image = this.ArticleImageArr[ImageCount].image;
-                    let today = new Date();   
-                    let hours = ('0' + today.getHours()).slice(-2); 
+                    this.$store.state.articles.currentArticle.image = this
+                        .ArticleImageArr[ImageCount]
+                        .image;
+                    let today = new Date();
+                    let hours = ('0' + today.getHours()).slice(-2);
                     let minutes = ('0' + today.getMinutes()).slice(-2);
-                    let seconds = ('0' + today.getSeconds()).slice(-2); 
-                    let timeString = hours + ':' + minutes  + ':' + seconds;
+                    let seconds = ('0' + today.getSeconds()).slice(-2);
+                    let timeString = hours + ':' + minutes + ':' + seconds;
                     let year = today.getFullYear();
-                    let month = ('0' + (today.getMonth() + 1)).slice(-2);
+                    let month = ('0' + (
+                        today.getMonth() + 1
+                    )).slice(-2);
                     let day = ('0' + today.getDate()).slice(-2);
-                    let dateString = year + '-' + month  + '-' + day;
+                    let dateString = year + '-' + month + '-' + day;
                     this.$store.state.articles.currentArticle.startDate = dateString;
                     this.$store.state.articles.currentArticle.startTime = timeString;
                     this
@@ -175,13 +195,15 @@
                     ImageCount++;
                 }
             },
-            pushUserData(){
+            pushUserData() {
                 this.$store.state.admin.currentUser.id = "hostid"
                 this.$store.state.admin.currentUser.password = "1234"
                 this.$store.state.admin.currentUser.userName = "관리자"
                 this.$store.state.admin.currentUser.userBirthDay = "2020-12-12"
                 this.$store.state.admin.currentUser.startDay = "0000-00-00"
-                this.$store.state.admin.currentUser.profileImage = require("../assets/Initial_account.png");
+                this.$store.state.admin.currentUser.profileImage = require(
+                    "../assets/Initial_account.png"
+                );
                 this
                     .$store
                     .commit("ADD_NEW_USER", this.$store.state.admin.currentUser);
@@ -190,7 +212,9 @@
                 this.$store.state.admin.currentUser.userName = "관리자2"
                 this.$store.state.admin.currentUser.userBirthDay = "2020-12-12"
                 this.$store.state.admin.currentUser.startDay = "0000-00-00"
-                this.$store.state.admin.currentUser.profileImage = require("../assets/Initial_account.png");
+                this.$store.state.admin.currentUser.profileImage = require(
+                    "../assets/Initial_account.png"
+                );
                 this
                     .$store
                     .commit("ADD_NEW_USER", this.$store.state.admin.currentUser);
@@ -207,18 +231,21 @@
                     .$router
                     .push({path: '/ArticleDetailPage'})
                     .catch(() => {})
-            },
-            searchArticle(){
+                },
+            searchArticle() {
                 this.DataProcessAllarticles = [];
-                for(let Article of this.$store.state.articles.AllArticles){
-                    if(Article.title.includes(this.searchInfo)){
-                        this.DataProcessAllarticles.push(Article);
-                    }
-                    else if(Article.content.includes(this.searchInfo)){
-                        this.DataProcessAllarticles.push(Article);
+                for (let Article of this.$store.state.articles.AllArticles) {
+                    if (Article.title.includes(this.searchInfo)) {
+                        this
+                            .DataProcessAllarticles
+                            .push(Article);
+                    } else if (Article.content.includes(this.searchInfo)) {
+                        this
+                            .DataProcessAllarticles
+                            .push(Article);
                     }
                 }
-                if(this.searchInfo.length === 0){
+                if (this.searchInfo.length === 0) {
                     this.DataProcessAllarticles = this.$store.state.articles.AllArticles
                 }
             }
@@ -226,14 +253,14 @@
     }
 </script>
 <style>
-    .searchDiv{
+    .searchDiv {
         float: left;
     }
-    .searchBar{
+    .searchBar {
         width: 300px;
         display: inline-block;
     }
-    .searchBtn{
+    .searchBtn {
         display: inline-block;
     }
     .mainImage {
@@ -247,12 +274,12 @@
     .text-h2 {
         font-weight: 700 !important;
     }
-    .carouselStyle {
-    }
     .ArticleMargin {
+        width: 47% !important;
         cursor: pointer;
-        margin-left: 3%;
-        margin-right: 3%;
+        margin-left: 1.5%;
+        margin-right: 1.5%;
+        margin-bottom: 0.5%;
     }
     h1 {
         /*글자에 그라디에이션 주는 효과*/
